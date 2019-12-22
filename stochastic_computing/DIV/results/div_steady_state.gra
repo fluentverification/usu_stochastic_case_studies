@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE chartFormat SYSTEM "chartformat.dtd">
+<chartFormat graphTitle="Divider Steady-State P(Q)" legendFontColourB="0" legendFontColourG="0" legendFontColourR="0" legendFontName="SansSerif" legendFontSize="11" legendFontStyle="0" legendPosition="right" legendVisible="true" titleFontColourB="0" titleFontColourG="0" titleFontColourR="0" titleFontName="SansSerif" titleFontSize="14" titleFontStyle="0" versionString="4.5">
+    <layout/>
+    <axis autoscale="true" heading="epsilon0" headingFontColourB="0" headingFontColourG="0" headingFontColourR="0" headingFontName="SansSerif" headingFontSize="12" headingFontStyle="0" logBase="10.0" logStyle="1" logarithmic="false" majorColourB="204" majorColourG="204" majorColourR="204" majorGridInterval="0.2" maxValue="1.0" maximumPower="1.0" minValue="0.0" minimumPower="0.0" numberFontColourB="0" numberFontColourG="0" numberFontColourR="0" numberFontName="SansSerif" numberFontSize="12" numberFontStyle="0" showMajor="true"/>
+    <axis autoscale="true" heading="Probability" headingFontColourB="0" headingFontColourG="0" headingFontColourR="0" headingFontName="SansSerif" headingFontSize="12" headingFontStyle="0" logBase="10.0" logStyle="1" logarithmic="false" majorColourB="204" majorColourG="204" majorColourR="204" majorGridInterval="0.2" maxValue="1.0" maximumPower="1.0" minValue="0.0" minimumPower="0.0" numberFontColourB="0" numberFontColourG="0" numberFontColourR="0" numberFontName="SansSerif" numberFontSize="12" numberFontStyle="0" showMajor="true"/>
+    <graph lineStyle="normal" lineWidth="1.0" seriesColourB="255" seriesColourG="0" seriesColourR="0" seriesHeading="epsilon1=0.1" seriesShape="circle" showLines="true" showPoints="true">
+        <point x="0.0" y="0.007812493939748749"/>
+        <point x="0.025" y="0.25000133069152314"/>
+        <point x="0.05" y="0.5000033408390636"/>
+        <point x="0.07500000000000001" y="0.7498108178108821"/>
+        <point x="0.1" y="0.9307521916488591"/>
+        <point x="0.125" y="0.96971583019781"/>
+        <point x="0.15000000000000002" y="0.979345790456503"/>
+        <point x="0.17500000000000002" y="0.9833034868559054"/>
+        <point x="0.2" y="0.9854181627845829"/>
+        <point x="0.225" y="0.9867261649849725"/>
+        <point x="0.25" y="0.9876130056794952"/>
+        <point x="0.275" y="0.9882531646150667"/>
+        <point x="0.30000000000000004" y="0.9887367069560102"/>
+        <point x="0.325" y="0.9891147101298761"/>
+        <point x="0.35000000000000003" y="0.989418260658579"/>
+        <point x="0.375" y="0.9896673472459396"/>
+        <point x="0.4" y="0.9898754007107361"/>
+        <point x="0.42500000000000004" y="0.9900517763907146"/>
+        <point x="0.45" y="0.990203189423466"/>
+        <point x="0.47500000000000003" y="0.9903345839126412"/>
+        <point x="0.5" y="0.9904496802136671"/>
+    </graph>
+    <graph lineStyle="normal" lineWidth="1.0" seriesColourB="0" seriesColourG="127" seriesColourR="0" seriesHeading="epsilon1=0.2" seriesShape="square" showLines="true" showPoints="true">
+        <point x="0.0" y="0.007812504552030612"/>
+        <point x="0.025" y="0.1250001930581704"/>
+        <point x="0.05" y="0.2500008353312178"/>
+        <point x="0.07500000000000001" y="0.37500206394415"/>
+        <point x="0.1" y="0.5000029745276884"/>
+        <point x="0.125" y="0.6249964270112833"/>
+        <point x="0.15000000000000002" y="0.74988592255491"/>
+        <point x="0.17500000000000002" y="0.8656296476725618"/>
+        <point x="0.2" y="0.933881430021206"/>
+        <point x="0.225" y="0.9605917550012711"/>
+        <point x="0.25" y="0.9717383901693655"/>
+        <point x="0.275" y="0.9773503378002976"/>
+        <point x="0.30000000000000004" y="0.9806260955723882"/>
+        <point x="0.325" y="0.9827456910245069"/>
+        <point x="0.35000000000000003" y="0.9842204924154987"/>
+        <point x="0.375" y="0.9853024837781001"/>
+        <point x="0.4" y="0.9861286898475274"/>
+        <point x="0.42500000000000004" y="0.9867795251741387"/>
+        <point x="0.45" y="0.9873051073032069"/>
+        <point x="0.47500000000000003" y="0.9877382205426287"/>
+        <point x="0.5" y="0.9881011786418017"/>
+    </graph>
+    <graph lineStyle="normal" lineWidth="1.0" seriesColourB="0" seriesColourG="0" seriesColourR="255" seriesHeading="epsilon1=0.3" seriesShape="triangle" showLines="true" showPoints="true">
+        <point x="0.0" y="0.007812496972252829"/>
+        <point x="0.025" y="0.08333533066616718"/>
+        <point x="0.05" y="0.16666694545884359"/>
+        <point x="0.07500000000000001" y="0.2500006197161285"/>
+        <point x="0.1" y="0.3333344363916797"/>
+        <point x="0.125" y="0.416668404133707"/>
+        <point x="0.15000000000000002" y="0.5000022107830014"/>
+        <point x="0.17500000000000002" y="0.5833307833027407"/>
+        <point x="0.2" y="0.6666640502085569"/>
+        <point x="0.225" y="0.7499377646209511"/>
+        <point x="0.25" y="0.8310793116364346"/>
+        <point x="0.275" y="0.8975171255638673"/>
+        <point x="0.30000000000000004" y="0.9372517320824807"/>
+        <point x="0.325" y="0.957373483578198"/>
+        <point x="0.35000000000000003" y="0.9678518449760929"/>
+        <point x="0.375" y="0.9738447889381104"/>
+        <point x="0.4" y="0.9775994916292371"/>
+        <point x="0.42500000000000004" y="0.9801312497747281"/>
+        <point x="0.45" y="0.9819383649743842"/>
+        <point x="0.47500000000000003" y="0.9832864833243977"/>
+        <point x="0.5" y="0.9843277625246853"/>
+    </graph>
+    <graph lineStyle="normal" lineWidth="1.0" seriesColourB="191" seriesColourG="191" seriesColourR="0" seriesHeading="epsilon1=0.4" seriesShape="rectangle_h" showLines="true" showPoints="true">
+        <point x="0.0" y="0.007812498480277865"/>
+        <point x="0.025" y="0.06252119743462274"/>
+        <point x="0.05" y="0.12500014837990986"/>
+        <point x="0.07500000000000001" y="0.18750028144946077"/>
+        <point x="0.1" y="0.2500004811351031"/>
+        <point x="0.125" y="0.3125007302595315"/>
+        <point x="0.15000000000000002" y="0.37500103389059836"/>
+        <point x="0.17500000000000002" y="0.4375013951034246"/>
+        <point x="0.2" y="0.5000016712859358"/>
+        <point x="0.225" y="0.5624980830465"/>
+        <point x="0.25" y="0.6249981625251204"/>
+        <point x="0.275" y="0.6874978773642337"/>
+        <point x="0.30000000000000004" y="0.749970336890458"/>
+        <point x="0.325" y="0.8118277571495274"/>
+        <point x="0.35000000000000003" y="0.8690122482216929"/>
+        <point x="0.375" y="0.913085465666777"/>
+        <point x="0.4" y="0.940916007626618"/>
+        <point x="0.42500000000000004" y="0.9569847075350622"/>
+        <point x="0.45" y="0.9663876638143118"/>
+        <point x="0.47500000000000003" y="0.9722086450288004"/>
+        <point x="0.5" y="0.9760437650974959"/>
+    </graph>
+    <graph lineStyle="normal" lineWidth="1.0" seriesColourB="191" seriesColourG="0" seriesColourR="191" seriesHeading="epsilon1=0.5" seriesShape="rectangle_v" showLines="true" showPoints="true">
+        <point x="0.0" y="0.007812499997619345"/>
+        <point x="0.025" y="0.050084799461496916"/>
+        <point x="0.05" y="0.10000033337454671"/>
+        <point x="0.07500000000000001" y="0.15000015175055167"/>
+        <point x="0.1" y="0.2000002527814523"/>
+        <point x="0.125" y="0.2500003790126404"/>
+        <point x="0.15000000000000002" y="0.30000052830361545"/>
+        <point x="0.17500000000000002" y="0.3500007033213744"/>
+        <point x="0.2" y="0.4000008984983974"/>
+        <point x="0.225" y="0.4500011238630547"/>
+        <point x="0.25" y="0.5000012987990385"/>
+        <point x="0.275" y="0.5499985157867809"/>
+        <point x="0.30000000000000004" y="0.5999985693589651"/>
+        <point x="0.325" y="0.6499986258555088"/>
+        <point x="0.35000000000000003" y="0.6999984358957966"/>
+        <point x="0.375" y="0.7499881652914734"/>
+        <point x="0.4" y="0.7997996055645963"/>
+        <point x="0.42500000000000004" y="0.8481624104974097"/>
+        <point x="0.45" y="0.8910169456922844"/>
+        <point x="0.47500000000000003" y="0.9235052589213388"/>
+        <point x="0.5" y="0.944950088150484"/>
+    </graph>
+</chartFormat>

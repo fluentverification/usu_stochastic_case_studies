@@ -1,0 +1,5 @@
+P=? [ F[Tstep,Tstep] Q=1 ]
+
+S=? [ Q=1 ]
+
+(P=? [ F[Tstep,Tstep] Q=1 ]) - (S=? [ Q=1 ])

@@ -1,0 +1,40 @@
+// C-element model
+// logic values: 0, 1, X (X == 2)
+
+
+mdp
+
+const double epsilon=0.005;
+const double alpha;
+
+module C0
+  z0 : [0 .. 2] init 2;
+
+  // Primary deterministic function:
+  [] a0=1 & b0=1 -> (z0'=1);
+  [] a0=0 & b0=0 -> (z0'=0);
+
+  // Effect of indeterminate inputs:
+  [] b0=2 -> 0.5:(z0'=a0) + 0.5:(z0'=z0);
+  [] a0=2 -> 0.5:(z0'=b0) + 0.5:(z0'=z0);
+
+  // State upsets:
+  [] ((a0=0&b0=1)|(a0=1&b0=0))&(z0!=2) -> alpha:(z0'=2) + (1-alpha):(z0'=z0);
+  [] (z0=2)&(a0!=b0)                   -> 0.5:(z0'=0) + 0.5:(z0'=1);
+
+endmodule
+
+
+
+module SourceA
+
+  a0 : [0..2] init 0;
+
+  [] (a0=0) -> epsilon:(a0'=2) + (1-epsilon):(a0'=0);
+  [] (a0=2) -> 0.5:(a0'=1) + 0.5:(a0'=0);
+  [] (a0=1) -> (a0'=0);
+
+endmodule
+
+
+module SourceB = SourceA [ a0=b0 ] endmodule

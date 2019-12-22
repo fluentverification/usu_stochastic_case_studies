@@ -1,0 +1,8 @@
+const double C0;
+
+label "L0" = true;
+
+!(z0=1)
+
+z0=1
+

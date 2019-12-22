@@ -1,0 +1,86 @@
+// Restorative Feedback (RFB) model 
+// based on C-element with MUX initialization
+// logic values: 0, 1, X (X == 2)
+
+
+mdp
+
+const double epsilon=0.005;
+const double alpha;
+
+
+//------------------
+// Clock Source
+//------------------
+module clkgen
+
+  clk   : [0..1] init 0;
+
+  [] (clk=0) -> 0.25:(clk'=1) + 0.75:(clk'=0);
+
+endmodule
+
+
+//------------------
+// C-elements
+//------------------
+module C0
+  z0 : [0 .. 2] init 2;
+
+  // Primary deterministic function:
+  [] a0=1 & b0=1 -> (z0'=1);
+  [] a0=0 & b0=0 -> (z0'=0);
+
+  // Effect of indeterminate inputs:
+  [] b0=2 -> 0.5:(z0'=a0) + 0.5:(z0'=z0);
+  [] a0=2 -> 0.5:(z0'=b0) + 0.5:(z0'=z0);
+
+  // State upsets:
+  [] ((a0=0&b0=1)|(a0=1&b0=0))&(z0!=2) -> alpha:(z0'=2) + (1-alpha):(z0'=z0);
+  [] (z0=2)&(a0!=b0)                   -> 0.5:(z0'=0) + 0.5:(z0'=1);
+
+endmodule
+
+module C1 = C0 [ z0=z1, a0=a1, b0=b1 ] endmodule
+module C2 = C0 [ z0=z2, a0=a2, b0=b2 ] endmodule
+
+
+//------------------
+// MUX switches
+//------------------
+module MUXA0
+
+  a0 : [0..2] init 0;
+  
+  [] (clk=1) -> (a0'=x2);
+  [] (clk=0) -> (a0'=z2);
+  
+endmodule
+
+module MUXB0 = MUXA0 [ a0=b0, z2=x0, x2=x2 ] endmodule
+
+module MUXA1 = MUXA0 [ a0=a1, z2=z0, x2=x0  ] endmodule
+module MUXB1 = MUXA0 [ a0=b1, z2=x1, x2=x0  ] endmodule
+
+module MUXA2 = MUXA0 [ a0=a2, z2=z1, x2=x1 ] endmodule
+module MUXB2 = MUXA0 [ a0=b2, z2=x2, x2=x1 ] endmodule
+
+
+
+//------------------
+// Signal Sources
+//------------------
+module Source0
+
+  x0 : [0..2] init 0;
+
+  [] (x0=0) -> epsilon:(x0'=2) + (1-epsilon):(x0'=0);
+  [] (x0=2) -> 0.5:(x0'=1) + 0.5:(x0'=0);
+  [] (x0=1) -> (x0'=0);
+
+endmodule
+
+
+module Source1 = Source0 [ x0=x1 ] endmodule
+module Source2 = Source0 [ x0=x2 ] endmodule
+

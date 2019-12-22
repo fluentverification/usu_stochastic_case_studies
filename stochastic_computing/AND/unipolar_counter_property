@@ -1,0 +1,2 @@
+P=? [ F[100,127] c0/t0>0.9*epsilon0*epsilon1 & c0/t0<1.1*epsilon0*epsilon1 ]
+

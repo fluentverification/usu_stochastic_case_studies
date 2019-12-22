@@ -1,0 +1,8 @@
+P=? [ F[Tstep,Tstep] Z=1 ]
+
+S=? [ Z=1 ]
+
+(P=? [ F[Tstep,Tstep] Z=1 ])-(S=? [ Z=1 ])
+
+S=? [ Z=1 ] / (1 - S=? [Z=1])
+
