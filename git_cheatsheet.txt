@@ -1,12 +1,12 @@
-To clone a repository into the current worrking directory:[D[D[C
+To clone a repository into the current worrking directory:
 
 git clone https://github.com/fluentverification/usu_stochastic_case_studies.git .
 
-Then you make local edits. If you add a file and want others to see it:
+Then you make local edits. If you ADD a file to your local working state: 
 
 git add <filename>
 
-Then to COMMIT the changes:
+Then to COMMIT the changes to your local repository:
 
 git commit -a -m "A message describing what you changed"
 
