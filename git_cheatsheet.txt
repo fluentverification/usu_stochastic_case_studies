@@ -1,0 +1,23 @@
+To clone a repository into the current worrking directory:
+
+git clone https://github.com/fluentverification/usu_stochastic_case_studies.git .
+
+Then you make local edits. If you ADD a file to your local working state: 
+
+git add <filename>
+
+Then to COMMIT the changes to your local repository:
+
+git commit -a -m "A message describing what you changed"
+
+A COMMIT is only local to YOUR repository copy. To share with the rest of the
+group, type:
+
+git push origin master
+
+
+In future sessions, you can download changes from others by typing
+
+git pull origin master
+
+
