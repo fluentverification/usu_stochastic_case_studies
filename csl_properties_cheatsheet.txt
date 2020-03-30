@@ -1,0 +1,15 @@
+
+Compute steady-state probabilities:
+
+S=? [condition]
+
+Here the condition could be something like "Q=1" meaning calculate the
+long-run probability that signal "Q" is 1.
+
+Compute transient probabilities:
+
+P=? [condition]
+
+Here the condition can be something like "Q=1" or a more complex formula like
+"F[Tstep,Tstep] Q=1" meaning calculate the probability at time Tstep that Q=1.
+
