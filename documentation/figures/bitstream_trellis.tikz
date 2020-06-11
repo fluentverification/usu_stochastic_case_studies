@@ -1,0 +1,9 @@
+\begin{tikzpicture}[
+  state/.style={circle,fill=black,minimum width=0.125cm,inner sep=0},
+]
+
+  \foreach \x in {0,1} \foreach \y {0,1} \node[state] at (\x,\y) (s\x\y) {};
+
+  
+
+\end{tikzpicture}

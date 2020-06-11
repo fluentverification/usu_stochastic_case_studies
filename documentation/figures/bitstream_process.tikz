@@ -1,0 +1,13 @@
+\begin{tikzpicture}[
+  state/.style={circle,draw=black,minimum width=0.75cm,inner sep=0},
+]
+
+  \node[state] at (0,0) (s0) {0};
+  \node[state] at (2,0) (s1) {1};
+
+  \draw (s0) to[out=45,in=135,->] node[above] {$p$} (s1);
+  \draw (s1) to[out=225,in=-45,->] node[below] {$1-p$} (s0);
+  \draw (s0) to[out=215,in=145,looseness=6,->] node[above,anchor=east] {$1-p$} (s0);
+  \draw (s1) to[out=35,in=-35,looseness=6,->] node[below,anchor=west] {$p$} (s1);
+
+\end{tikzpicture}
