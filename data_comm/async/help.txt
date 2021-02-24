@@ -1,0 +1,4 @@
+
+[TP:] This will be the reident help file for comminication Between Tom P. and Professor Winstead.
+
+[TP:] There seems to be a problem with the fault rewards system. How should we change this to make the system correct?
