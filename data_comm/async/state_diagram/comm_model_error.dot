@@ -37,14 +37,14 @@ digraph G {
    0011 -> 1011 [ color = "red" ]; //Potential Delay//
    0100 -> 0000 [ color = "red" ]; //State Skip Error//
    0100 -> 0101 [ color = "green" ];
-   0100 -> 0110 [ color = "green" ];
-   0100 -> 1100 [ color = "red" ];
+   0100 -> 0110 [ color = "red" ];
+   0100 -> 1100 [ color = "green" ];
    0101 -> 0001 [ color = "red" ]; //State Skip Error//
    0101 -> 0100 [ color = "red" ]; //Potential Delay//
    0101 -> 0111 [ color = "red" ]; //State Skip Error//
    0101 -> 1101 [ color = "green" ];
    0110 -> 0010 [ color = "red" ]; //Potential Delay//
-   0110 -> 0100 [ color = "red" ];
+   0110 -> 0100 [ color = "green" ];
    0110 -> 0111 [ color = "red" ];
    0110 -> 1110 [ color = "green" ];
    0111 -> 0011 [ color = "red" ]; //Potential Delay//
