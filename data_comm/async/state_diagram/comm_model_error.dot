@@ -18,7 +18,7 @@ digraph G {
      1110 [ color="green" ];
    };
    1010 [ color="red" ]; //Deadlock//
-   1111 [ color="red" ]; //Potential Delay//
+   1111 [ color="red" ]; //Red State with Natural Solution//
    0000 -> 0001 [ color = "green" ];
    0000 -> 0010 [ color = "red" ]; //State Skip Error//
    0000 -> 0100 [ color = "red" ]; //State Skip Error//
@@ -50,7 +50,7 @@ digraph G {
    0111 -> 0011 [ color = "red" ]; //Potential Delay//
    0111 -> 0101 [ color = "red" ]; //State Skip Error//
    0111 -> 0110 [ color = "green" ];
-   0111 -> 1111 [ color = "red" ];
+   0111 -> 1111 [ color = "red" ]; //Red State with Natural Solution Transition//
    1000 -> 0000 [ color = "green" ];
    1000 -> 1001 [ color = "green" ];
    1000 -> 1010 [ color = "red" ]; //Deadlock Error//
@@ -66,7 +66,7 @@ digraph G {
    1011 -> 0011 [ color = "green" ];
    1011 -> 1001 [ color = "red" ]; //Potential Delay//
    1011 -> 1010 [ color = "red" ]; //Deadlock Error//
-   1011 -> 1111 [ color = "red" ];
+   1011 -> 1111 [ color = "red" ]; //Red State with Natural Solution Transition//
    1100 -> 0100 [ color = "red" ]; //Potential Delay//
    1100 -> 1000 [ color = "red" ]; //Potential Delay//
    1100 -> 1101 [ color = "green" ];
@@ -74,13 +74,13 @@ digraph G {
    1101 -> 0101 [ color = "red" ]; //Potential Delay//
    1101 -> 1001 [ color = "green" ];
    1101 -> 1100 [ color = "red" ]; //Potential Delay//
-   1101 -> 1111 [ color = "red" ];
+   1101 -> 1111 [ color = "red" ]; //Red State with Natural Solution Transition//
    1110 -> 0110 [ color = "red" ]; //Potential Delay//
    1110 -> 1010 [ color = "red" ]; //Deadlock Error//
    1110 -> 1100 [ color = "green" ];
-   1110 -> 1111 [ color = "red" ];
-   1111 -> 0111 [ color = "red" ];
-   1111 -> 1011 [ color = "red" ];
-   1111 -> 1101 [ color = "red" ];
-   1111 -> 1110 [ color = "red" ];
+   1110 -> 1111 [ color = "red" ]; //Red State with Natural Solution Transition//
+   1111 -> 0111 [ color = "red" ]; //Out of Red State Transition//
+   1111 -> 1011 [ color = "red" ]; //Out of Red State Transition//
+   1111 -> 1101 [ color = "red" ]; //Out of Red State Transition//
+   1111 -> 1110 [ color = "red" ]; //Out of Red State Transition//
 }
