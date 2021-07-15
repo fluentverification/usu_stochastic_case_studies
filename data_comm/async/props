@@ -1,4 +1,4 @@
 R=? [S]
 //Dead lock error// 
 
-// P=? (true U ( S1 ^X S2) possible property//
+// P=? (true U ( S1 ^X S2)) possible property//
