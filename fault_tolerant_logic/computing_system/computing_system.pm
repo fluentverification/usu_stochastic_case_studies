@@ -58,11 +58,13 @@ module controller1
    [] (c1 = 1) -> 30    :(c1' = 0);
 endmodule
 
+module controller2 = controller1 [ c1=c2 ] endmodule
 
-label "fail" =  ((pr1+pr2>1)|(ps1+ps2>1)|(c1=1)|(f1+f2>1)|(d1+d2>1)|(b1+b2>1));
-label "allgood" = (pr1 + pr2 + ps1 + ps2 + c1 + f1 + f2 + d1 + d2 + b1 + b2 = 0);
-formula fail =  ((pr1+pr2>1)|(ps1+ps2>1)|(c1=1)|(f1+f2>1)|(d1+d2>1)|(b1+b2>1));
-formula  allgood = (pr1 + pr2 + ps1 + ps2 + c1 + f1 + f2 + d1 + d2 + b1 + b2 = 0);
+
+label "fail" =  ((pr1+pr2>1)|(ps1+ps2>1)|(c1+c2>1)|(f1+f2>1)|(d1+d2>1)|(b1+b2>1));
+label "allgood" = (pr1 + pr2 + ps1 + ps2 + c1 + c2 + f1 + f2 + d1 + d2 + b1 + b2 = 0);
+formula fail =  ((pr1+pr2>1)|(ps1+ps2>1)|(c1 + c2 > 1)|(f1+f2>1)|(d1+d2>1)|(b1+b2>1));
+formula  allgood = (pr1 + pr2 + ps1 + ps2 + c1 + c2 + f1 + f2 + d1 + d2 + b1 + b2 = 0);
 
 
 rewards "return_to_zero"

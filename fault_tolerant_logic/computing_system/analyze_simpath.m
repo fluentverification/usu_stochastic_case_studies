@@ -1,7 +1,8 @@
 warning('off', 'all');
 
-d=importdata('outfile',' ');
-s = sum(d.data(:,3:12)') + 2*d.data(:,13)';
+d=importdata('path.dat',' ');
+s = sum(d.data(:,3:14)');
+max(s)
 zdx = find(s==0);
 Nfail = 0;
 Npath  = 0;

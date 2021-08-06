@@ -15,7 +15,7 @@ t0:
 	@grep "esult" t0.out
 
 simpath: 
-	@prism -simpath 100000 path.dat computing_system.pm > simpath.out
+	@prism -simpath 10000 path.dat computing_system.pm > simpath.out
 	@printf "Stochastic Simulation "
 	@grep "Generated " simpath.out
 
