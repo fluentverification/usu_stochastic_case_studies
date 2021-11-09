@@ -24,3 +24,4 @@ This repository contains case-study models of stochastic systems, mainly using t
 * ``./forward_error_correction/`` -- Error correction algorithms used for data communication, memories and data storage media.
   * ``trapping_sets/`` -- small sub-graphs affecting the *error floor* of Low-Density Parity-Check codes.
 
+* ``./stochastic_computing/`` -- To note, the dot png is in the order (Done),(Ack),(Rdy),(Valid)
