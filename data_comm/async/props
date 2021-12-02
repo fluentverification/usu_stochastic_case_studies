@@ -1,3 +1,12 @@
 R=? [S]
 //Dead lock error// 
 
+P=? [F<=T (s=1 & a=0)]
+//Polling property for a "station"(Should be edited to match model)//
+
+S=? ["premium"]
+//Steady State Probability(Should be edited to match model)//
+
+P=? [ F "0101" ]
+//Propability of entering the "0101"state from initial (hypothetical) (Should be edited to match model)//
+
