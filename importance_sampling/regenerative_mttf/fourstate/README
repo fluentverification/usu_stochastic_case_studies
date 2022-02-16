@@ -5,5 +5,7 @@ the other two scripts handle figure drawing.
 In the top lines of "fourstateexample.m", some options can be customized. The simulation can 
 be run using the embedded DTMC model by setting "DTMC=true", or the CTMC model can be used
 by setting "DTMC=false". The fail and repair rates can also be adjusted, as can the number of
-paths to simulate.
+paths to simulate. 
+
+Test change
 
