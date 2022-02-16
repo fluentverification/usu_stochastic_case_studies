@@ -1,0 +1,9 @@
+This directory contains a MATLAB demonstration for estimating the Mean Time to Failure (MTTF)
+of a four-state reliability model. The main simulation script is "fourstateexample.m", and
+the other two scripts handle figure drawing.
+
+In the top lines of "fourstateexample.m", some options can be customized. The simulation can 
+be run using the embedded DTMC model by setting "DTMC=true", or the CTMC model can be used
+by setting "DTMC=false". The fail and repair rates can also be adjusted, as can the number of
+paths to simulate.
+
