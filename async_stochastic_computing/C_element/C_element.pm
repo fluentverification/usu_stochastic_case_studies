@@ -2,7 +2,7 @@
 //
 // CTMC model of an asyncronous delay-dependent
 // bit source processed by a Muller C-element.
-//
+// https://en.wikipedia.org/wiki/C-element
 
 ctmc
 
