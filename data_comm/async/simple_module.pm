@@ -1,3 +1,11 @@
+
+//Simple Handshaking model:
+//Used to simulate an syncronous handshaking algorithm
+//between a sender and a reciever. Model contains 4 signals
+//that are used to control and faciliate the communictation 
+//bewteen the two devices.
+//Model also contains error transistions to simulate possible 
+//signals errors (such as a bit change caused by cosmic interferance).
 ctmc 
 module producer 
 
