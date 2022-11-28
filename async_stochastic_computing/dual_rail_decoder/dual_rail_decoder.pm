@@ -1,4 +1,5 @@
 // Dual-rail decoder
+//Greater description of model is necessary.
 // Signal encoding:
 //   0: logic 0
 //   1: logic 1
