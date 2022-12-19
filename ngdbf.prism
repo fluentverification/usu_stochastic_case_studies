@@ -1,11 +1,11 @@
-ctmc
+dtmc
 
 //Simple 3-bit model of ngdbf algorithm
 
 //Constants
-const double y1;
-const double y2;
-const double y3;
+const double y1 = 0.0;
+const double y2 = 0.0;
+const double y3 = 0.0;
 const double w = 1.0;
 
 //Formulas
