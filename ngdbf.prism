@@ -1,25 +1,50 @@
-dtmc
+ctmc
 
-//const double y1;
-//const double y2;
-//const double y3;
+//Simple 3-bit model of ngdbf algorithm
 
-module message_node1
+//Constants
+const double y1;
+const double y2;
+const double y3;
+const double w = 1.0;
 
-x1 : [0..1];
+//Formulas
+formula sum_y = y1+y2+y3;
+formula x_hat1 = 1-2*x1;
+formula x_hat2 = 1-2*x2;
+formula x_hat3 = 1-2*x3;
+formula E1 = x_hat1*y1+w*sum_y;
+formula E2 = x_hat2*y2+w*sum_y;
+formula E3 = x_hat3*y3+w*sum_y;
 
-[] 
 
+module message_1
+x1 : [-1..1];
+[] E1<0 -> 1:(x1'=0-x1); 
 endmodule
 
-module check_node1
 
+module message_2
+x2 : [-1..1];
+[] E2<0 -> 1:(x2'=0-x2); 
+endmodule
+
+module message_3 
+x3 : [-1..1];
+[] E3<0 -> 1:(x3'=0-x3); 
+endmodule
+
+
+module check_1
 s1 : [-1..1];
-
-
 endmodule
 
-module check_node2 = check_node1[ s2 = s1 ] endmodule
-module check_node3 = check_node2[ s3 = s1 ] endmodule
-module message_node2 = message_node1[ x2 = x1 ] endmodule
-module message_node3 = message_node1[ x3 = x1 ] endmodule
+module check_2
+s2 : [-1..1];
+endmodule
+
+module check_3
+s3 : [-1..1];
+endmodule
+
+
