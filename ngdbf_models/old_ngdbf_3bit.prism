@@ -16,7 +16,7 @@ const double theta = 1.0;
 formula E1 = x1*y1+w*(s12+s13);
 formula E2 = x2*y2+w*(s12+s23);
 formula E3 = x3*y3+w*(s13+s23);
-formula done = (s12 = s13 & s12 = s23 & s13 = s23);
+formula done = (s12 = 1 & s13 = 1 & s23 = s1);
 
 //Attempt with Binary Form
 //formula x_hat1 = 1-2*x1;
