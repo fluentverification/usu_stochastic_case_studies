@@ -19,13 +19,6 @@ formula E2 = x2*y2+w*(s12+s23);
 formula E3 = x3*y3+w*(s13+s23);
 formula done = (s12 = 1 & s23 = 1 & s13 = 1);
 
-//Attempt with Binary Form
-//formula x_hat1 = 1-2*x1;
-//formula x_hat2 = 1-2*x2;
-//formula x_hat3 = 1-2*x3;
-//formula E1 = x_hat1*y1+w*(s12+s13);
-//formula E2 = x_hat2*y2+w*(s12+s23);
-//formula E3 = x_hat3*y3+w*(s13+s23);
 
 module message
 halt : bool init false;
@@ -44,10 +37,4 @@ s23 : [-1..1] init y2_sign*y3_sign;
 [] done -> 100:(halt'=true);
 
 endmodule
-
-module check
-
-
-endmodule
-
 

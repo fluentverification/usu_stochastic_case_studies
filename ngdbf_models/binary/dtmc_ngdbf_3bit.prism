@@ -22,7 +22,7 @@ formula E3 = (mod(x3+y3_sign,2)=0?1:-1)*y3+w*((1-s23)+(1-s13));
 //Check Nodes
 formula s12 = mod(x1+x2,2);
 formula s13 = mod(x1+x3,2);
-formula s23= mod(x3+x2,2);
+formula s23 = mod(x3+x2,2);
 //Halt Condition
 formula done = (s12 = 0 & s23 = 0 & s13 = 0);
 
