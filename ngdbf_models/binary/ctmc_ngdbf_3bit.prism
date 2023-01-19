@@ -1,53 +1,43 @@
 ctmc
 
-//Simple 3-bit model of ngdbf algorithm
-//This CTMC has arbitrary constants
+//Simple 3-bit ctmc model of binary ngdbf algorithm
 
-//Constants
+//-------------------------------Constants-------------------------------
 const int y1 = -1;
 const int y2 = 1;
 const int y3 = -1;
-const int y1_sign = y1>0?1:-1;
-const int y2_sign = y2>0?1:-1;
-const int y3_sign = y3>0?1:-1;
-const double w = 0.5;
-const double theta = 1.0;
+//Quantize by sign
+const int y1_sign = y1>0?0:1;
+const int y2_sign = y2>0?0:1;
+const int y3_sign = y3>0?0:1;
+//Weight and Theta, default to common 802.3 values
+const double w = 1/6;
+const double theta = -0.55;
+const double rate_w = -10; //negative weight for rates
 
-//Formulas
-formula E1 = x1*y1+w*(s12+s13);
-formula E2 = x2*y2+w*(s12+s23);
-formula E3 = x3*y3+w*(s13+s23);
-formula done = (s12 = 1 & s23 = 1 & s13 = 1);
-
-//Attempt with Binary Form
-//formula x_hat1 = 1-2*x1;
-//formula x_hat2 = 1-2*x2;
-//formula x_hat3 = 1-2*x3;
-//formula E1 = x_hat1*y1+w*(s12+s13);
-//formula E2 = x_hat2*y2+w*(s12+s23);
-//formula E3 = x_hat3*y3+w*(s13+s23);
+//-------------------------------Formulas-------------------------------
+//Energy Functions
+formula E1 = (mod(x1+y1_sign,2)=0?1:-1)*y1+w*((1-s12)+(1-s13)); 
+formula E2 = (mod(x2+y2_sign,2)=0?1:-1)*y2+w*((1-s12)+(1-s23));
+formula E3 = (mod(x3+y3_sign,2)=0?1:-1)*y3+w*((1-s23)+(1-s13));
+//Check Nodes
+formula s12 = mod(x1+x2,2);
+formula s13 = mod(x1+x3,2);
+formula s23= mod(x3+x2,2);
+//Halt Condition
+formula done = (s12 = 0 & s23 = 0 & s13 = 0);
 
 module message
 halt : bool init false;
-x1 : [-1..1] init y1_sign;
-x2 : [-1..1] init y2_sign; 
-x3 : [-1..1] init y3_sign;
-s12 : [-1..1] init y1_sign*y2_sign;
-s13 : [-1..1] init y1_sign*y3_sign;
-s23 : [-1..1] init y2_sign*y3_sign;
+x1 : [0..1] init y1_sign;
+x2 : [0..1] init y2_sign; 
+x3 : [0..1] init y3_sign;
 
+//TODO:replace rates with Gaussian variable
+[] E1-theta < 0 & !done -> rate_w*(E1-theta):(x1' = mod(x1+1,2));
+[] E2-theta < 0 & !done -> rate_w*(E2-theta):(x2' = mod(x2+1,2));
+[] E3-theta < 0 & !done -> rate_w*(E3-theta):(x3' = mod(x3+1,2)); 
 
-[] E1-theta < 0 & !done -> 10:(x1' = -x1)+10:(s12' = x1*x2)+10:(s13' = x1*x3);
-[] E2-theta < 0 & !done -> 10:(x2' = -x2)+10:(s12' = x1*x2)+10:(s23' = x3*x2);
-[] E3-theta < 0 & !done -> 10:(x3' = -x3)+10:(s13' = x1*x3)+10:(s23' = x3*x2); 
-
-[] done -> 100:(halt'=true);
+[] done -> 1:(halt'=true);
 
 endmodule
-
-module check
-
-
-endmodule
-
-
