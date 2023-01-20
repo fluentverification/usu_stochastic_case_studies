@@ -26,6 +26,8 @@ formula s23 = mod(x3+x2,2);
 //Halt Condition
 formula done = (s12 = 0 & s23 = 0 & s13 = 0);
 
+global gauss_var : [0..100];
+
 module message
 halt : bool init false;
 x1 : [0..1] init y1_sign;
@@ -41,4 +43,8 @@ x3 : [0..1] init y3_sign;
 
 endmodule
 
+module gaussian
+
+
+endmodule
 
