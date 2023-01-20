@@ -1,0 +1,39 @@
+dtmc
+
+//Simple 3-bit model of ngdbf algorithm
+
+//Constants
+const int y1;
+const int y2;
+const int y3;
+const int y1_sign = y1>0?1:-1;
+const int y2_sign = y2>0?1:-1;
+const int y3_sign = y3>0?1:-1;
+const double w = 1/6;
+const double theta = -0.55;
+
+//Formulas
+formula E1 = x1*y1+w*(s12+s13);
+formula E2 = x2*y2+w*(s12+s23);
+formula E3 = x3*y3+w*(s13+s23);
+formula s12 = x1*x2;
+formula s13 = x1*x3;
+formula s23 = x3*x2;
+formula done = (s12 = 1 & s23 = 1 & s13 = 1);
+
+module message
+halt : bool init false;
+x1 : [-1..1] init y1_sign;
+x2 : [-1..1] init y2_sign; 
+x3 : [-1..1] init y3_sign;
+
+//TODO: replace probability with Gaussian probability
+[] E1-theta < 0 & !done -> 1:(x1' = -x1);
+[] E2-theta < 0 & !done -> 1:(x2' = -x2);
+[] E3-theta < 0 & !done -> 1:(x3' = -x3); 
+
+[] done -> 1:(halt'=true);
+
+endmodule
+
+

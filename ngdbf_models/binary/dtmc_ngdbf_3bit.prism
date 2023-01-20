@@ -1,0 +1,50 @@
+dtmc
+
+//Simple 3-bit dtmc model of binary ngdbf algorithm
+
+//-------------------------------Constants-------------------------------
+const int y1 = -1;
+const int y2 = 1;
+const int y3 = -1;
+//Quantize by sign
+const int y1_sign = y1>0?0:1;
+const int y2_sign = y2>0?0:1;
+const int y3_sign = y3>0?0:1;
+//Weight and Theta, default to common 802.3 values
+const double w = 1/6;
+const double theta = -0.55;
+
+//-------------------------------Formulas-------------------------------
+//Energy Functions
+formula E1 = (mod(x1+y1_sign,2)=0?1:-1)*y1+w*((1-s12)+(1-s13)); 
+formula E2 = (mod(x2+y2_sign,2)=0?1:-1)*y2+w*((1-s12)+(1-s23));
+formula E3 = (mod(x3+y3_sign,2)=0?1:-1)*y3+w*((1-s23)+(1-s13));
+//Check Nodes
+formula s12 = mod(x1+x2,2);
+formula s13 = mod(x1+x3,2);
+formula s23 = mod(x3+x2,2);
+//Halt Condition
+formula done = (s12 = 0 & s23 = 0 & s13 = 0);
+
+global gauss_var : [0..100];
+
+module message
+halt : bool init false;
+x1 : [0..1] init y1_sign;
+x2 : [0..1] init y2_sign; 
+x3 : [0..1] init y3_sign;
+
+//TODO:replace probability with Gaussian variable
+[] E1-theta < 0 & !done -> 1:(x1' = mod(x1+1,2));
+[] E2-theta < 0 & !done -> 1:(x2' = mod(x2+1,2));
+[] E3-theta < 0 & !done -> 1:(x3' = mod(x1+1,2)); 
+
+[] done -> 1:(halt'=true);
+
+endmodule
+
+module gaussian
+
+
+endmodule
+
