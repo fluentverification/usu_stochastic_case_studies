@@ -26,7 +26,7 @@ formula s23 = mod(x3+x2,2);
 //Halt Condition
 formula done = (s12 = 0 & s23 = 0 & s13 = 0);
 
-global gauss_var : [0..100];
+
 
 module message
 halt : bool init false;
@@ -35,7 +35,7 @@ x2 : [0..1] init y2_sign;
 x3 : [0..1] init y3_sign;
 
 //TODO:replace probability with Gaussian variable
-[] E1-theta < 0 & !done -> 1:(x1' = mod(x1+1,2));
+[] E1-theta < 0 & !done -> (1-(gauss_var/100)):(x1' = mod(x1+1,2))+(gauss_var/100):(x1'=x1);
 [] E2-theta < 0 & !done -> 1:(x2' = mod(x2+1,2));
 [] E3-theta < 0 & !done -> 1:(x3' = mod(x1+1,2)); 
 
@@ -44,7 +44,8 @@ x3 : [0..1] init y3_sign;
 endmodule
 
 module gaussian
-
+gauss_var : [0..100];
+[] !done -> 0.25:(gauss_var' = 20) + 0.75:(gauss_var' = 25);
 
 endmodule
 
