@@ -10,8 +10,8 @@ end
 %Create 6-sigma array
 x = -6:(12/100):6;
 %Create unit distribution and normalize
-unit_dist = normpdf(x,0,1);
-normalized_dist = unit_dist/sum(unit_dist); %<-- Does this change the distribution
+unit_dist = normpdf(x,0,1); %<-- This does not sum to 1
+normalized_dist = unit_dist/sum(unit_dist); %<-- Does this change the distribution?
 
 %Create integer array
 y = -50:50;
