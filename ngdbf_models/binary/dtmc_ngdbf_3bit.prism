@@ -3,9 +3,9 @@ dtmc
 //Simple 3-bit dtmc model of binary ngdbf algorithm
 
 //-------------------------------Constants-------------------------------
-const int y1 = -1;
-const int y2 = 1;
-const int y3 = -1;
+const double y1 = -1;
+const double y2 = 1;
+const double y3 = -1;
 //Quantize by sign
 const int y1_sign = y1>0?0:1;
 const int y2_sign = y2>0?0:1;
@@ -19,9 +19,9 @@ const double SNR = 4.5;
 
 //-------------------------------Formulas-------------------------------
 //Energy Functions
-formula E1 = (mod(x1+y1_sign,2)=0?1:-1)*y1+w*((1-s12)+(1-s13)); 
-formula E2 = (mod(x2+y2_sign,2)=0?1:-1)*y2+w*((1-s12)+(1-s23));
-formula E3 = (mod(x3+y3_sign,2)=0?1:-1)*y3+w*((1-s23)+(1-s13));
+formula E1 = (mod(x1+y1_sign,2)=0?1:-1)*y1+w*((1-s12)+(1-s13))+noise; 
+formula E2 = (mod(x2+y2_sign,2)=0?1:-1)*y2+w*((1-s12)+(1-s23))+noise;
+formula E3 = (mod(x3+y3_sign,2)=0?1:-1)*y3+w*((1-s23)+(1-s13))+noise;
 //Check Nodes
 formula s12 = mod(x1+x2,2);
 formula s13 = mod(x1+x3,2);
@@ -50,6 +50,7 @@ x3 : [0..1] init y3_sign;
 
 endmodule
 
+//TODO: Fix distribution to be normal and sum to 1
 module gaussian_variable1 
  gauss_var1: [-50..50];
  [sync] !done -> 0.000000:(gauss_var1'=-50)+0.000000:(gauss_var1'=-49)+0.000000:(gauss_var1'=-48)+0.000000:(gauss_var1'=-47)+0.000000:(gauss_var1'=-46)+0.000000:(gauss_var1'=-45)+0.000000:(gauss_var1'=-44)+0.000000:(gauss_var1'=-43)+0.000000:(gauss_var1'=-42)+0.000000:(gauss_var1'=-41)+0.000000:(gauss_var1'=-40)+0.000001:(gauss_var1'=-39)+0.000001:(gauss_var1'=-38)+0.000003:(gauss_var1'=-37)+0.000004:(gauss_var1'=-36)+0.000007:(gauss_var1'=-35)+0.000012:(gauss_var1'=-34)+0.000019:(gauss_var1'=-33)+0.000030:(gauss_var1'=-32)+0.000047:(gauss_var1'=-31)+0.000073:(gauss_var1'=-30)+0.000112:(gauss_var1'=-29)+0.000169:(gauss_var1'=-28)+0.000252:(gauss_var1'=-27)+0.000368:(gauss_var1'=-26)+0.000532:(gauss_var1'=-25)+0.000757:(gauss_var1'=-24)+0.001062:(gauss_var1'=-23)+0.001468:(gauss_var1'=-22)+0.002000:(gauss_var1'=-21)+0.002687:(gauss_var1'=-20)+0.003559:(gauss_var1'=-19)+0.004645:(gauss_var1'=-18)+0.005976:(gauss_var1'=-17)+0.007579:(gauss_var1'=-16)+0.009474:(gauss_var1'=-15)+0.011674:(gauss_var1'=-14)+0.014179:(gauss_var1'=-13)+0.016975:(gauss_var1'=-12)+0.020032:(gauss_var1'=-11)+0.023302:(gauss_var1'=-10)+0.026718:(gauss_var1'=-9)+0.030197:(gauss_var1'=-8)+0.033641:(gauss_var1'=-7)+0.036942:(gauss_var1'=-6)+0.039987:(gauss_var1'=-5)+0.042664:(gauss_var1'=-4)+0.044869:(gauss_var1'=-3)+0.046514:(gauss_var1'=-2)+0.047530:(gauss_var1'=-1)+0.047873:(gauss_var1'=0)+0.047530:(gauss_var1'=1)+0.046514:(gauss_var1'=2)+0.044869:(gauss_var1'=3)+0.042664:(gauss_var1'=4)+0.039987:(gauss_var1'=5)+0.036942:(gauss_var1'=6)+0.033641:(gauss_var1'=7)+0.030197:(gauss_var1'=8)+0.026718:(gauss_var1'=9)+0.023302:(gauss_var1'=10)+0.020032:(gauss_var1'=11)+0.016975:(gauss_var1'=12)+0.014179:(gauss_var1'=13)+0.011674:(gauss_var1'=14)+0.009474:(gauss_var1'=15)+0.007579:(gauss_var1'=16)+0.005976:(gauss_var1'=17)+0.004645:(gauss_var1'=18)+0.003559:(gauss_var1'=19)+0.002687:(gauss_var1'=20)+0.002000:(gauss_var1'=21)+0.001468:(gauss_var1'=22)+0.001062:(gauss_var1'=23)+0.000757:(gauss_var1'=24)+0.000532:(gauss_var1'=25)+0.000368:(gauss_var1'=26)+0.000252:(gauss_var1'=27)+0.000169:(gauss_var1'=28)+0.000112:(gauss_var1'=29)+0.000073:(gauss_var1'=30)+0.000047:(gauss_var1'=31)+0.000030:(gauss_var1'=32)+0.000019:(gauss_var1'=33)+0.000012:(gauss_var1'=34)+0.000007:(gauss_var1'=35)+0.000004:(gauss_var1'=36)+0.000003:(gauss_var1'=37)+0.000001:(gauss_var1'=38)+0.000001:(gauss_var1'=39)+0.000000:(gauss_var1'=40)+0.000000:(gauss_var1'=41)+0.000000:(gauss_var1'=42)+0.000000:(gauss_var1'=43)+0.000000:(gauss_var1'=44)+0.000000:(gauss_var1'=45)+0.000000:(gauss_var1'=46)+0.000000:(gauss_var1'=47)+0.000000:(gauss_var1'=48)+0.000000:(gauss_var1'=49)+0.000000:(gauss_var1'=50)+
