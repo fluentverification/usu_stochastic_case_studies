@@ -28,12 +28,14 @@ formula s13 = mod(x1+x3,2);
 formula s23 = mod(x3+x2,2);
 //Halt Condition
 formula done = (s12 = 0 & s23 = 0 & s13 = 0);
-//TODO: Fix g formulas
-formula g1 = (gauss_var1/100);
-formula g2 = (gauss_var2/100);
-formula g3 = (gauss_var3/100);
+//Gaussian probabilities
+formula g1 = (gauss_var1/12);
+formula g2 = (gauss_var2/12);
+formula g3 = (gauss_var3/12);
+//Calculate Noise
+formula noise = pow(1/R,1/2)*pow(10,-SNR/20);
 
-
+//-------------------------------Modules-------------------------------
 module message
 halt : bool init false;
 x1 : [0..1] init y1_sign;
