@@ -1,3 +1,4 @@
+clear;
 %Select the file to edit
 fid = -1;
 errmsg = '';
