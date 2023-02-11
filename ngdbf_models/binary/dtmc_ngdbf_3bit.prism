@@ -3,9 +3,9 @@ dtmc
 //Simple 3-bit dtmc model of binary ngdbf algorithm
 
 //-------------------------------Constants-------------------------------
-const double y1 = -1;
-const double y2 = 1;
-const double y3 = -1;
+const double y1 = 602;
+const double y2 = 619;
+const double y3 = 764;
 //Quantize by sign
 const int y1_sign = y1>0?0:1;
 const int y2_sign = y2>0?0:1;
@@ -14,7 +14,7 @@ const int y3_sign = y3>0?0:1;
 const double w = 1/6;
 const double theta = -0.55;
 //Code Rate and SNR
-const double R = 0.8413;
+const double r = 0.8413; //capital R was apparently not allowed
 const double SNR = 4.5;
 
 //-------------------------------Formulas-------------------------------
@@ -28,12 +28,14 @@ formula s13 = mod(x1+x3,2);
 formula s23 = mod(x3+x2,2);
 //Halt Condition
 formula done = (s12 = 0 & s23 = 0 & s13 = 0);
-//Gaussian probabilities
+//Gaussian probabilities 
 formula g1 = (gauss_var1/12);
+
 formula g2 = (gauss_var2/12);
+
 formula g3 = (gauss_var3/12);
 //Calculate Noise
-formula noise = pow(1/R,1/2)*pow(10,-SNR/20);
+formula noise = pow(1/r,1/2)*pow(10,-SNR/20);
 
 //-------------------------------Modules-------------------------------
 module message
@@ -42,18 +44,17 @@ x1 : [0..1] init y1_sign;
 x2 : [0..1] init y2_sign; 
 x3 : [0..1] init y3_sign;
 
-[sync] E1-theta < 0 & !done -> (1-g1):(x1' = mod(x1+1,2))+g1:(x1'=x1);
-[sync] E2-theta < 0 & !done -> (1-g2):(x2' = mod(x2+1,2))+g2:(x2'=x2);
-[sync] E3-theta < 0 & !done -> (1-g3):(x3' = mod(x3+1,2))+g3:(x3'=x3); 
+[sync] E1<=theta & !done -> (1-g1):(x1' = mod(x1+1,2))+g1:(x1'=x1);
+[sync] E2<=theta & !done -> (1-g2):(x2' = mod(x2+1,2))+g2:(x2'=x2);
+[sync] E3<=theta & !done -> (1-g3):(x3' = mod(x3+1,2))+g3:(x3'=x3); 
 
 [] done -> 1:(halt'=true);
 
 endmodule
 
-//TODO: Fix distribution to be normal and sum to 1
 module gaussian_variable1 
  gauss_var1: [-50..50];
- [sync] !done -> 0.000000:(gauss_var1'=-50)+0.000000:(gauss_var1'=-49)+0.000000:(gauss_var1'=-48)+0.000000:(gauss_var1'=-47)+0.000000:(gauss_var1'=-46)+0.000000:(gauss_var1'=-45)+0.000000:(gauss_var1'=-44)+0.000000:(gauss_var1'=-43)+0.000000:(gauss_var1'=-42)+0.000000:(gauss_var1'=-41)+0.000000:(gauss_var1'=-40)+0.000001:(gauss_var1'=-39)+0.000001:(gauss_var1'=-38)+0.000003:(gauss_var1'=-37)+0.000004:(gauss_var1'=-36)+0.000007:(gauss_var1'=-35)+0.000012:(gauss_var1'=-34)+0.000019:(gauss_var1'=-33)+0.000030:(gauss_var1'=-32)+0.000047:(gauss_var1'=-31)+0.000073:(gauss_var1'=-30)+0.000112:(gauss_var1'=-29)+0.000169:(gauss_var1'=-28)+0.000252:(gauss_var1'=-27)+0.000368:(gauss_var1'=-26)+0.000532:(gauss_var1'=-25)+0.000757:(gauss_var1'=-24)+0.001062:(gauss_var1'=-23)+0.001468:(gauss_var1'=-22)+0.002000:(gauss_var1'=-21)+0.002687:(gauss_var1'=-20)+0.003559:(gauss_var1'=-19)+0.004645:(gauss_var1'=-18)+0.005976:(gauss_var1'=-17)+0.007579:(gauss_var1'=-16)+0.009474:(gauss_var1'=-15)+0.011674:(gauss_var1'=-14)+0.014179:(gauss_var1'=-13)+0.016975:(gauss_var1'=-12)+0.020032:(gauss_var1'=-11)+0.023302:(gauss_var1'=-10)+0.026718:(gauss_var1'=-9)+0.030197:(gauss_var1'=-8)+0.033641:(gauss_var1'=-7)+0.036942:(gauss_var1'=-6)+0.039987:(gauss_var1'=-5)+0.042664:(gauss_var1'=-4)+0.044869:(gauss_var1'=-3)+0.046514:(gauss_var1'=-2)+0.047530:(gauss_var1'=-1)+0.047873:(gauss_var1'=0)+0.047530:(gauss_var1'=1)+0.046514:(gauss_var1'=2)+0.044869:(gauss_var1'=3)+0.042664:(gauss_var1'=4)+0.039987:(gauss_var1'=5)+0.036942:(gauss_var1'=6)+0.033641:(gauss_var1'=7)+0.030197:(gauss_var1'=8)+0.026718:(gauss_var1'=9)+0.023302:(gauss_var1'=10)+0.020032:(gauss_var1'=11)+0.016975:(gauss_var1'=12)+0.014179:(gauss_var1'=13)+0.011674:(gauss_var1'=14)+0.009474:(gauss_var1'=15)+0.007579:(gauss_var1'=16)+0.005976:(gauss_var1'=17)+0.004645:(gauss_var1'=18)+0.003559:(gauss_var1'=19)+0.002687:(gauss_var1'=20)+0.002000:(gauss_var1'=21)+0.001468:(gauss_var1'=22)+0.001062:(gauss_var1'=23)+0.000757:(gauss_var1'=24)+0.000532:(gauss_var1'=25)+0.000368:(gauss_var1'=26)+0.000252:(gauss_var1'=27)+0.000169:(gauss_var1'=28)+0.000112:(gauss_var1'=29)+0.000073:(gauss_var1'=30)+0.000047:(gauss_var1'=31)+0.000030:(gauss_var1'=32)+0.000019:(gauss_var1'=33)+0.000012:(gauss_var1'=34)+0.000007:(gauss_var1'=35)+0.000004:(gauss_var1'=36)+0.000003:(gauss_var1'=37)+0.000001:(gauss_var1'=38)+0.000001:(gauss_var1'=39)+0.000000:(gauss_var1'=40)+0.000000:(gauss_var1'=41)+0.000000:(gauss_var1'=42)+0.000000:(gauss_var1'=43)+0.000000:(gauss_var1'=44)+0.000000:(gauss_var1'=45)+0.000000:(gauss_var1'=46)+0.000000:(gauss_var1'=47)+0.000000:(gauss_var1'=48)+0.000000:(gauss_var1'=49)+0.000000:(gauss_var1'=50)+
-endmodule
- module gaussian_variable2 = gaussian_variable1[ gauss_var1=gauss_var2 ];
- module gaussian_variable3 = gaussian_variable1[ gauss_var1=gauss_var3 ];
+ [sync] !done -> 0.0000000009865876:(gauss_var1'=-50)+0.0000000010647448:(gauss_var1'=-49)+0.0000000021543644:(gauss_var1'=-48)+0.0000000042968114:(gauss_var1'=-47)+0.0000000084474749:(gauss_var1'=-46)+0.0000000163704653:(gauss_var1'=-45)+0.0000000312714948:(gauss_var1'=-44)+0.0000000588829780:(gauss_var1'=-43)+0.0000001092910018:(gauss_var1'=-42)+0.0000001999551388:(gauss_var1'=-41)+0.0000003606070901:(gauss_var1'=-40)+0.0000006410464324:(gauss_var1'=-39)+0.0000011233064550:(gauss_var1'=-38)+0.0000019402628491:(gauss_var1'=-37)+0.0000033035161495:(gauss_var1'=-36)+0.0000055442889778:(gauss_var1'=-35)+0.0000091721013726:(gauss_var1'=-34)+0.0000149570313025:(gauss_var1'=-33)+0.0000240422734922:(gauss_var1'=-32)+0.0000380942337927:(gauss_var1'=-31)+0.0000594972011816:(gauss_var1'=-30)+0.0000915983011230:(gauss_var1'=-29)+0.0001390054713015:(gauss_var1'=-28)+0.0002079361353524:(gauss_var1'=-27)+0.0003066067018879:(gauss_var1'=-26)+0.0004456428318078:(gauss_var1'=-25)+0.0006384778232642:(gauss_var1'=-24)+0.0009016922213318:(gauss_var1'=-23)+0.0012552332848099:(gauss_var1'=-22)+0.0017224403542965:(gauss_var1'=-21)+0.0023297942092636:(gauss_var1'=-20)+0.0031063083139567:(gauss_var1'=-19)+0.0040824905453727:(gauss_var1'=-18)+0.0052888280821446:(gauss_var1'=-17)+0.0067537868377668:(gauss_var1'=-16)+0.0085013694090890:(gauss_var1'=-15)+0.0105483387507942:(gauss_var1'=-14)+0.0129012827310729:(gauss_var1'=-13)+0.0155537589395340:(gauss_var1'=-12)+0.0184838094591448:(gauss_var1'=-11)+0.0216521612282365:(gauss_var1'=-10)+0.0250014198670608:(gauss_var1'=-9)+0.0284565173780688:(gauss_var1'=-8)+0.0319265857936119:(gauss_var1'=-7)+0.0353083045188013:(gauss_var1'=-6)+0.0384906199708225:(gauss_var1'=-5)+0.0413605787661490:(gauss_var1'=-4)+0.0438098702657862:(gauss_var1'=-3)+0.0457415615201954:(gauss_var1'=-2)+0.0470764456772120:(gauss_var1'=-1)+0.0477584260205839:(gauss_var1'=0)+0.0477584260205839:(gauss_var1'=1)+0.0470764456772120:(gauss_var1'=2)+0.0457415615201954:(gauss_var1'=3)+0.0438098702657863:(gauss_var1'=4)+0.0413605787661490:(gauss_var1'=5)+0.0384906199708225:(gauss_var1'=6)+0.0353083045188012:(gauss_var1'=7)+0.0319265857936120:(gauss_var1'=8)+0.0284565173780688:(gauss_var1'=9)+0.0250014198670608:(gauss_var1'=10)+0.0216521612282364:(gauss_var1'=11)+0.0184838094591447:(gauss_var1'=12)+0.0155537589395340:(gauss_var1'=13)+0.0129012827310729:(gauss_var1'=14)+0.0105483387507942:(gauss_var1'=15)+0.0085013694090891:(gauss_var1'=16)+0.0067537868377667:(gauss_var1'=17)+0.0052888280821446:(gauss_var1'=18)+0.0040824905453727:(gauss_var1'=19)+0.0031063083139566:(gauss_var1'=20)+0.0023297942092636:(gauss_var1'=21)+0.0017224403542965:(gauss_var1'=22)+0.0012552332848099:(gauss_var1'=23)+0.0009016922213319:(gauss_var1'=24)+0.0006384778232642:(gauss_var1'=25)+0.0004456428318078:(gauss_var1'=26)+0.0003066067018879:(gauss_var1'=27)+0.0002079361353524:(gauss_var1'=28)+0.0001390054713015:(gauss_var1'=29)+0.0000915983011229:(gauss_var1'=30)+0.0000594972011816:(gauss_var1'=31)+0.0000380942337928:(gauss_var1'=32)+0.0000240422734922:(gauss_var1'=33)+0.0000149570313025:(gauss_var1'=34)+0.0000091721013726:(gauss_var1'=35)+0.0000055442889778:(gauss_var1'=36)+0.0000033035161495:(gauss_var1'=37)+0.0000019402628492:(gauss_var1'=38)+0.0000011233064550:(gauss_var1'=39)+0.0000006410464325:(gauss_var1'=40)+0.0000003606070901:(gauss_var1'=41)+0.0000001999551388:(gauss_var1'=42)+0.0000001092910018:(gauss_var1'=43)+0.0000000588829780:(gauss_var1'=44)+0.0000000312714947:(gauss_var1'=45)+0.0000000163704654:(gauss_var1'=46)+0.0000000084474748:(gauss_var1'=47)+0.0000000042968115:(gauss_var1'=48)+0.0000000021543644:(gauss_var1'=49)+0.0000000020513000:(gauss_var1'=50);
+ endmodule 
+module gaussian_variable2 = gaussian_variable1[ gauss_var1=gauss_var2 ] endmodule
+module gaussian_variable3 = gaussian_variable1[ gauss_var1=gauss_var3 ] endmodule
