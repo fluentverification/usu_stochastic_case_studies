@@ -14,7 +14,7 @@ const int y3_sign = y3>0?0:1;
 const double w = 1/6;
 const double theta = -0.55;
 //Code Rate and SNR
-const double r = 0.8413; //capital R was apparently not allowed
+const double r = 0.8413; 
 const double SNR = 4.5;
 
 //-------------------------------Formulas-------------------------------
@@ -30,12 +30,10 @@ formula s23 = mod(x3+x2,2);
 formula done = (s12 = 0 & s23 = 0 & s13 = 0);
 //Gaussian probabilities 
 formula g1 = (gauss_var1/12);
-
 formula g2 = (gauss_var2/12);
-
 formula g3 = (gauss_var3/12);
 //Calculate Noise
-formula noise = pow(1/r,1/2)*pow(10,-SNR/20);
+formula noise = pow(1/r,1/2)*pow(10,-SNR/20); //TODO noise should be different for each variable
 
 //-------------------------------Modules-------------------------------
 module message
