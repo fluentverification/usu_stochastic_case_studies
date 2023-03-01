@@ -3,9 +3,9 @@ dtmc
 //Simple 3-bit dtmc model of binary ngdbf algorithm
 
 //-------------------------------Constants-------------------------------
-const double y1 = 602;
-const double y2 = 619;
-const double y3 = 764;
+const double y1;
+const double y2;
+const double y3;
 //Quantize by sign
 const int y1_sign = y1>0?0:1;
 const int y2_sign = y2>0?0:1;
@@ -19,9 +19,9 @@ const double SNR = 4.5;
 
 //-------------------------------Formulas-------------------------------
 //Energy Functions
-formula E1 = (mod(x1+y1_sign,2)=0?1:-1)*y1+w*((1-s12)+(1-s13))+noise; 
-formula E2 = (mod(x2+y2_sign,2)=0?1:-1)*y2+w*((1-s12)+(1-s23))+noise;
-formula E3 = (mod(x3+y3_sign,2)=0?1:-1)*y3+w*((1-s23)+(1-s13))+noise;
+formula E1 = (mod(x1+y1_sign,2)=0?1:-1)*y1+w*((1-s12)+(1-s13))+g1; 
+formula E2 = (mod(x2+y2_sign,2)=0?1:-1)*y2+w*((1-s12)+(1-s23))+g2;
+formula E3 = (mod(x3+y3_sign,2)=0?1:-1)*y3+w*((1-s23)+(1-s13))+g3;
 //Check Nodes
 formula s12 = mod(x1+x2,2);
 formula s13 = mod(x1+x3,2);
@@ -33,7 +33,7 @@ formula g1 = (gauss_var1/12);
 formula g2 = (gauss_var2/12);
 formula g3 = (gauss_var3/12);
 //Calculate Noise
-formula noise = pow(1/r,1/2)*pow(10,-SNR/20); //TODO noise should be different for each variable
+formula N0 = pow(1/r,1/2)*pow(10,-SNR/20); //TODO noise should be different for each variable
 
 //-------------------------------Modules-------------------------------
 module message
@@ -42,9 +42,9 @@ x1 : [0..1] init y1_sign;
 x2 : [0..1] init y2_sign; 
 x3 : [0..1] init y3_sign;
 
-[sync] E1<=theta & !done -> (1-g1):(x1' = mod(x1+1,2))+g1:(x1'=x1);
-[sync] E2<=theta & !done -> (1-g2):(x2' = mod(x2+1,2))+g2:(x2'=x2);
-[sync] E3<=theta & !done -> (1-g3):(x3' = mod(x3+1,2))+g3:(x3'=x3); 
+[sync] E1<=theta & !done -> 1:(x1' = mod(x1+1,2));
+[sync] E2<=theta & !done -> 1:(x2' = mod(x2+1,2));
+[sync] E3<=theta & !done -> 1:(x3' = mod(x3+1,2)); 
 
 [] done -> 1:(halt'=true);
 
