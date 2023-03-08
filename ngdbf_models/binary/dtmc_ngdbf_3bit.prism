@@ -19,21 +19,25 @@ const double SNR = 4.5;
 
 //-------------------------------Formulas-------------------------------
 //Energy Functions
-formula E1 = (mod(x1+y1_sign,2)=0?1:-1)*y1+w*((1-s12)+(1-s13))+g1; 
-formula E2 = (mod(x2+y2_sign,2)=0?1:-1)*y2+w*((1-s12)+(1-s23))+g2;
-formula E3 = (mod(x3+y3_sign,2)=0?1:-1)*y3+w*((1-s23)+(1-s13))+g3;
+formula E1 = (mod(x1+y1_sign,2)=0?1:-1)*y1+w*((1-s12)+(1-s13))+noise1; 
+formula E2 = (mod(x2+y2_sign,2)=0?1:-1)*y2+w*((1-s12)+(1-s23))+noise2;
+formula E3 = (mod(x3+y3_sign,2)=0?1:-1)*y3+w*((1-s23)+(1-s13))+noise3;
 //Check Nodes
 formula s12 = mod(x1+x2,2);
 formula s13 = mod(x1+x3,2);
 formula s23 = mod(x3+x2,2);
 //Halt Condition
 formula done = (s12 = 0 & s23 = 0 & s13 = 0);
-//Gaussian probabilities 
-formula g1 = (gauss_var1/12);
-formula g2 = (gauss_var2/12);
-formula g3 = (gauss_var3/12);
 //Calculate Noise
-formula N0 = pow(1/r,1/2)*pow(10,-SNR/20); //TODO noise should be different for each variable
+formula noise1 = var*gauss_var1;
+formula noise2 = var*gauss_var2;
+formula noise3 = var*gauss_var3; 
+
+//formula g1 = (gauss_var1/12);
+//formula g2 = (gauss_var2/12);
+//formula g3 = (gauss_var3/12);
+//Calculate Noise
+formula var = pow(1/r,1/2)*pow(10,-SNR/20); //TODO noise should be different for each variable
 
 //-------------------------------Modules-------------------------------
 module message
