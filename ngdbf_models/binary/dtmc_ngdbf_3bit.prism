@@ -29,15 +29,15 @@ formula s23 = mod(x3+x2,2);
 //Halt Condition
 formula done = (s12 = 0 & s23 = 0 & s13 = 0);
 //Calculate Noise
-formula noise1 = var*gauss_var1;
-formula noise2 = var*gauss_var2;
-formula noise3 = var*gauss_var3; 
+formula noise1 = stddev*gauss_var1;
+formula noise2 = stddev*gauss_var2;
+formula noise3 = stddev*gauss_var3; 
 
 //formula g1 = (gauss_var1/12);
 //formula g2 = (gauss_var2/12);
 //formula g3 = (gauss_var3/12);
 //Calculate Noise
-formula var = pow(1/r,1/2)*pow(10,-SNR/20); //TODO noise should be different for each variable
+formula stddev = pow(1/r,1/2)*pow(10,-SNR/20); 
 
 //-------------------------------Modules-------------------------------
 module message
