@@ -9,6 +9,10 @@ check = input("Would you like to use the default values [y/n]? ","s");
 if isempty(check)
     check = 'y';
 end
+code_rate = [];
+SNR = [];
+th = [];
+w = [];
 if check ~= 'y'
     fprintf("Press enter to use default value\n");
     code_rate = input("Enter a new code rate: ");
@@ -16,6 +20,22 @@ if check ~= 'y'
     th = input("Enter a new threshold: ");
     w = input("Enter a new weight: ");
 end
+constants = "-consts ";
+if ~isempty(code_rate)
+    constants = constants+"r="+code_rate+",";
+end
+if ~isempty(SNR)
+    constants = constants+"SNR="+SNR+",";
+end
+
+if ~isempty(th)
+    constants=constants+"theta="+th+",";
+end
+
+if ~isempty(w)
+    constants=constants+"w="+w+",";
+end
+fprintf(constants);
 %% Generate samples 
 
 %% Select NGDBF Model
