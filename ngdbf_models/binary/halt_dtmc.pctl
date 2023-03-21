@@ -1,2 +1,2 @@
-P=? [ F halt=true ]
+P=? [ F<=20 halt=true ]
 

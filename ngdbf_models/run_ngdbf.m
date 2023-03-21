@@ -35,17 +35,18 @@ end
 if ~isempty(w)
     constants=constants+"w="+w+",";
 end
-fprintf(constants);
-%% Generate samples 
 
+%% Generate samples 
+y1 = 0.4;
+y2 = -1.2;
+y3 = 0.6353;
+constants = constants+y1+",y2="+y2+",y3="+y3;
 %% Select NGDBF Model
 
 %% Simulate Model and Capture input
 path = "binary/dtmc_ngdbf_3bit.prism";
-y1 = 0.4;
-y2 = -1.2;
-y3 = 0.6353;
-output = system("prism "+ path + " -const y1="+y1+",y2="+y2+",y3="+y3);
+prop = "binary/halt_dtmc.pctl";
+output = system("prism "+ path +" "+prop+" "+constants);
 
 %% Process input
 
