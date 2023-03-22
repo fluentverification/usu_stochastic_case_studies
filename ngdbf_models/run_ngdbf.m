@@ -1,4 +1,5 @@
 % Wrapper for NGDBF Prism Models
+clear;
 %% Ask for inputs
 fprintf("Default Values\n");
 fprintf("Code Rate = 0.8413\n");
@@ -20,7 +21,7 @@ if check ~= 'y'
     th = input("Enter a new threshold: ");
     w = input("Enter a new weight: ");
 end
-constants = "-consts ";
+constants = "-const ";
 if ~isempty(code_rate)
     constants = constants+"r="+code_rate+",";
 end
@@ -40,13 +41,15 @@ end
 y1 = 0.4;
 y2 = -1.2;
 y3 = 0.6353;
-constants = constants+y1+",y2="+y2+",y3="+y3;
+constants = constants+"y1="+y1+",y2="+y2+",y3="+y3;
 %% Select NGDBF Model
-
+%Right now only the dtmc binary model is complete
 %% Simulate Model and Capture input
 path = "binary/dtmc_ngdbf_3bit.prism";
 prop = "binary/halt_dtmc.pctl";
-output = system("prism "+ path +" "+prop+" "+constants);
+[status,output] = system("prism "+ path +" "+prop+" "+constants);
 
-%% Process input
-
+%% Process output
+temp1 = regexp(output,"Result: ",'split'); 
+temp2 = split(temp1(2),' ');
+p = str2double(temp2(1));
