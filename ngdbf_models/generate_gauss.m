@@ -8,7 +8,7 @@ while fid < 0
    filename = input('Open file: ', 's');
    [fid,errmsg] = fopen(filename,'a');
 end
-limit = 25;
+limit = 4;
 range = 2*limit;
 %Create 6-sigma array
 x = -6:(12/range):6;
@@ -28,7 +28,7 @@ pvec(range+1) = pvec(range+1)+int(pd,6,inf);
 
 % Create integer array
 y = -limit:limit;
-fprintf(fid,"module gaussian_variable1 \n gauss_var1: [-50..50];\n [sync] !done -> ");
+fprintf(fid,"module gaussian_variable1 \n gauss_var1: [-%d..%d];\n [sync] !done -> ",limit,limit);
 for n=1:range
      fprintf(fid,"%0.16f:(gauss_var1'=%d)+",pvec(n),y(n));
 end
