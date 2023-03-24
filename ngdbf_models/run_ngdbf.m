@@ -47,14 +47,14 @@ y3 = 0.6353;
 
 constants = constants+"y1="+y1+",y2="+y2+",y3="+y3;
 %% Select NGDBF Model
-%Right now only the dtmc binary model is complete
-
+%Only the dtmc binary model is complete
+model_path = "binary/dtmc_ngdbf_3bit.prism";
+prop_path = "binary/halt_dtmc.pctl";
 %% Simulate Model and Capture Output
-path = "binary/dtmc_ngdbf_3bit.prism";
-prop = "binary/halt_dtmc.pctl";
-[status,output] = system("prism "+ path +" "+prop+" "+constants);
+[status,output] = system("prism "+ model_path +" "+prop_path+" "+constants);
 
 %% Process output
+%extract result probability
 temp1 = regexp(output,"Result: ",'split'); 
 temp2 = split(temp1(2),' ');
-p = str2double(temp2(1));
+result = str2double(temp2(1));
