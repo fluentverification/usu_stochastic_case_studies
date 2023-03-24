@@ -37,14 +37,19 @@ if ~isempty(w)
     constants=constants+"w="+w+",";
 end
 
-%% Generate samples 
+%% Generate samples
+%TODO:actually generate samples
+
+%Test values
 y1 = 0.4;
 y2 = -1.2;
 y3 = 0.6353;
+
 constants = constants+"y1="+y1+",y2="+y2+",y3="+y3;
 %% Select NGDBF Model
 %Right now only the dtmc binary model is complete
-%% Simulate Model and Capture input
+
+%% Simulate Model and Capture Output
 path = "binary/dtmc_ngdbf_3bit.prism";
 prop = "binary/halt_dtmc.pctl";
 [status,output] = system("prism "+ path +" "+prop+" "+constants);
