@@ -10,12 +10,12 @@ const double y3;
 const int y1_sign = y1>0?0:1;
 const int y2_sign = y2>0?0:1;
 const int y3_sign = y3>0?0:1;
-//Weight and Theta, default to common 802.3 values
-const double w = 1/6;
-const double theta = -0.55;
+//Weight and Threshold
+const double w;
+const double theta;
 //Code Rate and SNR
-const double r = 0.8413; 
-const double SNR = 4.5;
+const double r; 
+const double SNR;
 
 //-------------------------------Formulas-------------------------------
 //Energy Functions
