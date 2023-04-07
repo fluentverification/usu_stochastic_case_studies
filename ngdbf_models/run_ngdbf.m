@@ -67,6 +67,6 @@ for n = 1:iter
     temp1 = regexp(output,"Result: ",'split'); 
     temp2 = split(temp1(2),' ');
     result(n) = str2double(temp2(1));
-    fprintf("Result: %f with samples %f,%f,%f\n",result(n),y1(n),y2(n),y3(n));
+    fprintf("%d:\tResult: %f with samples %f,%f,%f\n",n,result(n),y1(n),y2(n),y3(n));
     end
 end
