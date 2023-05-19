@@ -39,8 +39,8 @@ function status = write_model(fileName,y1,y2,y3,p)
         fprintf(fid,"\t[] state=%d & !done -> ",i);
         for j=1:8
             fprintf(fid,"%.8f:(state'=%d)",p(i,j),j);
-            cur_state = dec2bin(i,3);
-            update_state = dec2bin(j,3);
+            cur_state = dec2bin(i-1,3);
+            update_state = dec2bin(j-1,3);
             if cur_state(1) ~= update_state(1)
                 fprintf(fid,"&(x1' = mod(x1+1,2))");
             end
