@@ -98,9 +98,9 @@ for n = 1:rounds
     % dissertation (pg. 26)
     row = 1;
     % State 1 (1 1 1)
-    px1 = normcdf(theta,E(row,1),sqrt(sigma));
-    px2 = normcdf(theta,E(row,2),sqrt(sigma));
-    px3 = normcdf(theta,E(row,3),sqrt(sigma));
+    px1 = normcdf(theta,E(row,1),sigma);
+    px2 = normcdf(theta,E(row,2),sigma);
+    px3 = normcdf(theta,E(row,3),sigma);
     p(row,1) = (1-px1)*(1-px2)*(1-px3);
     p(row,2) = (1-px1)*(1-px2)*px3;
     p(row,3) = (1-px1)*px2*(1-px3);
@@ -112,9 +112,9 @@ for n = 1:rounds
 
     % State 2 (1 1 -1)
     row = 2;
-    px1 = normcdf(theta,E(row,1),sqrt(sigma));
-    px2 = normcdf(theta,E(row,2),sqrt(sigma));
-    px3 = normcdf(theta,E(row,3),sqrt(sigma));
+    px1 = normcdf(theta,E(row,1),sigma);
+    px2 = normcdf(theta,E(row,2),sigma);
+    px3 = normcdf(theta,E(row,3),sigma);
     p(row,2) = (1-px1)*(1-px2)*(1-px3);
     p(row,1) = (1-px1)*(1-px2)*px3;
     p(row,4) = (1-px1)*px2*(1-px3);
@@ -126,9 +126,9 @@ for n = 1:rounds
 
     % State 3 ( 1 -1 1)
     row = 3;
-    px1 = normcdf(theta,E(row,1),sqrt(sigma));
-    px2 = normcdf(theta,E(row,2),sqrt(sigma));
-    px3 = normcdf(theta,E(row,3),sqrt(sigma));
+    px1 = normcdf(theta,E(row,1),sigma);
+    px2 = normcdf(theta,E(row,2),sigma);
+    px3 = normcdf(theta,E(row,3),sigma);
     p(row,3) = (1-px1)*(1-px2)*(1-px3); % ( 1 -1 1) 
     p(row,4) = (1-px1)*(1-px2)*px3; % (1 -1 -1) 
     p(row,1) = (1-px1)*px2*(1-px3); % (1 1 1) 
@@ -140,9 +140,9 @@ for n = 1:rounds
 
     % State 4 (1 -1 -1)
     row = 4;
-    px1 = normcdf(theta,E(row,1),sqrt(sigma));
-    px2 = normcdf(theta,E(row,2),sqrt(sigma));
-    px3 = normcdf(theta,E(row,3),sqrt(sigma));
+    px1 = normcdf(theta,E(row,1),sigma);
+    px2 = normcdf(theta,E(row,2),sigma);
+    px3 = normcdf(theta,E(row,3),sigma);
     p(row,4) = (1-px1)*(1-px2)*(1-px3);
     p(row,3) = (1-px1)*(1-px2)*px3; % (1 -1 1)
     p(row,2) = (1-px1)*px2*(1-px3); % (1 1 -1)
@@ -154,9 +154,9 @@ for n = 1:rounds
 
     % State 5 (-1 1 1)
     row = 5;
-    px1 = normcdf(theta,E(row,1),sqrt(sigma));
-    px2 = normcdf(theta,E(row,2),sqrt(sigma));
-    px3 = normcdf(theta,E(row,3),sqrt(sigma));
+    px1 = normcdf(theta,E(row,1),sigma);
+    px2 = normcdf(theta,E(row,2),sigma);
+    px3 = normcdf(theta,E(row,3),sigma);
     p(row,5) = (1-px1)*(1-px2)*(1-px3);
     p(row,6) = (1-px1)*(1-px2)*px3; % (-1 1 -1)
     p(row,7) = (1-px1)*px2*(1-px3); % (-1 -1 1)
@@ -168,9 +168,9 @@ for n = 1:rounds
 
     % State 6 (-1 1 -1)
     row = 6;
-    px1 = normcdf(theta,E(row,1),sqrt(sigma));
-    px2 = normcdf(theta,E(row,2),sqrt(sigma));
-    px3 = normcdf(theta,E(row,3),sqrt(sigma));
+    px1 = normcdf(theta,E(row,1),sigma);
+    px2 = normcdf(theta,E(row,2),sigma);
+    px3 = normcdf(theta,E(row,3),sigma);
     p(row,6) = (1-px1)*(1-px2)*(1-px3);
     p(row,5) = (1-px1)*(1-px2)*px3; % (-1 1 1)
     p(row,8) = (1-px1)*px2*(1-px3); % (-1 -1 -1)
@@ -182,9 +182,9 @@ for n = 1:rounds
 
     % State 7 (-1 -1 1)
     row = 7;
-    px1 = normcdf(theta,E(row,1),sqrt(sigma));
-    px2 = normcdf(theta,E(row,2),sqrt(sigma));
-    px3 = normcdf(theta,E(row,3),sqrt(sigma));
+    px1 = normcdf(theta,E(row,1),sigma);
+    px2 = normcdf(theta,E(row,2),sigma);
+    px3 = normcdf(theta,E(row,3),sigma);
     p(row,7) = (1-px1)*(1-px2)*(1-px3);
     p(row,8) = (1-px1)*(1-px2)*px3;
     p(row,5) = (1-px1)*px2*(1-px3); % (-1 1 1)
@@ -196,9 +196,9 @@ for n = 1:rounds
 
     % State 8 (-1 -1 -1)
     row = 8;
-    px1 = normcdf(theta,E(row,1),sqrt(sigma));
-    px2 = normcdf(theta,E(row,2),sqrt(sigma));
-    px3 = normcdf(theta,E(row,3),sqrt(sigma));
+    px1 = normcdf(theta,E(row,1),sigma);
+    px2 = normcdf(theta,E(row,2),sigma);
+    px3 = normcdf(theta,E(row,3),sigma);
     p(row,8) = (1-px1)*(1-px2)*(1-px3);
     p(row,7) = (1-px1)*(1-px2)*px3;
     p(row,6) = (1-px1)*px2*(1-px3); % (-1 1 -1)
@@ -208,7 +208,7 @@ for n = 1:rounds
     p(row,2) = px1*px2*(1-px3);
     p(row,1) = px1*px2*px3;
     
-    if sum(p.') ~= 1
+    if sum(round(sum(p.'))) ~= 8
         fprintf("Error: Probabilities do not sum to 1\n");
         exit();
     end
@@ -220,7 +220,7 @@ for n = 1:rounds
     % Only the dtmc binary model is complete
      model_path = "binary/dtmc_ngdbf_3bit.prism";
      prop_path = "binary/halt_dtmc.pctl";
-     write_model(model_path,y1(n),y2(n),y3(n),p);
+     [stat, istate] = write_model(model_path,y1(n),y2(n),y3(n),p);
     % Simulate Model and Capture Output
      [status,output] = system("prism "+ model_path +" "+prop_path);
      if status == 1
@@ -231,6 +231,22 @@ for n = 1:rounds
         temp1 = regexp(output,"Result: ",'split'); 
         temp2 = split(temp1(2),' ');
         result(n) = str2double(temp2(1));
-        fprintf("%d:\tResult: %f with samples %f,%f,%f\n",n,result(n),y1(n),y2(n),y3(n));
-    end
+        if y1(n) > 0
+            x1 = 0;
+        else
+            x1 = 1;
+        end
+        if y2(n) > 0
+            x2 = 0;
+        else
+            x2 = 1;
+        end
+        if y3(n) > 0
+            x3 = 0;
+        else
+            x3 = 1;
+        end
+        fprintf("%d:\tResult: %f with samples %f (%d),%f (%d),%f (%d) \t initial state: %d\n",n,result(n),y1(n),x1,y2(n),x2,y3(n),x3,istate);
+     end
+
 end
