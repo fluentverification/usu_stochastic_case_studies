@@ -30,7 +30,7 @@ function [status,state] = write_model(fileName,y1,y2,y3,p)
     fprintf(fid,"formula s4 = x1;\n");
     fprintf(fid,"formula s5 = x2;\n");
     fprintf(fid,"formula s6 = x3;\n");
-    fprintf(fid,"formula done = (state=1);//(s1 = 0) & (s2 = 0) & (s3 = 0)& (s4=0) & (s5 = 0) & (s6 = 0);\n\n");
+    fprintf(fid,"formula done = (s1 = 0) & (s2 = 0) & (s3 = 0)& (s4=0) & (s5 = 0) & (s6 = 0);//(state=1);\n\n");
     fprintf(fid,"module trapping_set \n");
     fprintf(fid,"\tstate : [1..8] init %d;\n",state);
     fprintf(fid,"\tx1 : [0..1] init %d;\n",x1);
