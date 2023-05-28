@@ -1,5 +1,5 @@
 % Wrapper for NGDBF Prism Models
-clear;
+clear;clc;
 % Ask for inputs
 fprintf("Default Values\n");
 fprintf("Code Rate = 0.8413\n");
@@ -35,10 +35,11 @@ if isempty(w)
     w = 1/6;
 end
 base_constants = base_constants+"w="+w+","+"theta="+theta+","+"SNR="+SNR+","+"r="+code_rate+",";
-
+file_out = fopen("output.txt","w");
 % Set number of times to run
-rounds = input("Enter number of times to simulate: ");
-rounds = round(rounds);
+%rounds = input("Enter number of times to simulate: ");
+%rounds = round(rounds);
+rounds = 8; % Test every error combination
 result = zeros(1,rounds);
 %initialize input history
 y1 = zeros(1,rounds);
@@ -48,25 +49,39 @@ y3 = zeros(1,rounds);
 % Run simulations
 for n = 1:rounds
     % The y values are gaussian with mean +1 and variance N0/2
+    % magnitude is taken so that error position can be determined
     sigma = sqrt(1/code_rate)*10^(-SNR/20);
-    y1(n) = normrnd(1,sigma);
-    y2(n) = normrnd(1,sigma);
-    y3(n) = normrnd(1,sigma);
+    y1(n) = abs(normrnd(1,sigma));
+    y2(n) = abs(normrnd(1,sigma));
+    y3(n) = abs(normrnd(1,sigma));
 
+    %Determine error position
+    bin_n = dec2bin(n-1,3);
+    if bin_n(1) == '1' && y1(n) > 0
+        y1(n) = -y1(n);
+    end
+    if bin_n(2) == '1' && y2(n) > 0
+        y2(n) = -y2(n);
+    end
+    if bin_n(3) == '1' && y3(n) > 0
+        y3(n) = -y3(n);
+    end
+
+    % Set initial node values
     x1 = sign(y1(n));
     x2 = sign(y2(n));
     x3 = sign(y3(n));
     
     % Create state matrix
-    % States taken from Vasnuva dissertation (Table 3.1, pg 27)
-    % state 1:  1  1  1
-    % state 2:  1  1 -1
-    % state 3:  1 -1  1
-    % state 4:  1 -1 -1
-    % state 5: -1  1  1
-    % state 6: -1  1 -1
-    % state 7: -1 -1  1
-    % state 8: -1 -1 -1
+    % States taken from Tasnuva dissertation (Table 3.1, pg 27)
+    % state 1:  1  1  1 | 0 0 0 
+    % state 2:  1  1 -1 | 0 0 1
+    % state 3:  1 -1  1 | 0 1 0
+    % state 4:  1 -1 -1 | 0 1 1
+    % state 5: -1  1  1 | 1 0 0 
+    % state 6: -1  1 -1 | 1 0 1
+    % state 7: -1 -1  1 | 1 1 0
+    % state 8: -1 -1 -1 | 1 1 1
     x = [
         1 1 1;
         1 1 -1;
@@ -94,7 +109,7 @@ for n = 1:rounds
 
     %% calculate transition probabilities
     p = zeros(8,8);
-    % Flip probabilities calculated according to Eq 3.13 in Vasnuva
+    % Flip probabilities calculated according to Eq 3.13 in Tasnuva
     % dissertation (pg. 26)
     row = 1;
     % State 1 (1 1 1)
@@ -222,15 +237,16 @@ for n = 1:rounds
      prop_path = "binary/halt_dtmc.pctl";
      [stat, istate] = write_model(model_path,y1(n),y2(n),y3(n),p);
     % Simulate Model and Capture Output
-     [status,output] = system("prism "+ model_path +" "+prop_path);
-     if status == 1
-        fprintf("%s",output);
-    else
+     [status,output] = system("prism "+ model_path +" -tr 500 ");
+      if status == 1
+         fprintf("%s",output);
+         exit();
+     else
         %% Process output
         % extract result probability
-        temp1 = regexp(output,"Result: ",'split'); 
-        temp2 = split(temp1(2),' ');
-        result(n) = str2double(temp2(1));
+%         temp1 = regexp(output,"Result: ",'split'); 
+%         temp2 = split(temp1(2),' ');
+%         result(n) = str2double(temp2(1));
         if y1(n) > 0
             x1 = 0;
         else
@@ -246,7 +262,9 @@ for n = 1:rounds
         else
             x3 = 1;
         end
-        fprintf("%d:\tResult: %f with samples %f (%d),%f (%d),%f (%d) \t initial state: %d\n",n,result(n),y1(n),x1,y2(n),x2,y3(n),x3,istate);
-     end
+
+        fprintf(file_out,"%s\n\n%d:\tResult: N/A with samples %e (%d),%e (%d),%e (%d) \t initial state: %d\n-------------------------\n",output,n,y1(n),x1,y2(n),x2,y3(n),x3,istate);
+      end
 
 end
+fclose(file_out);

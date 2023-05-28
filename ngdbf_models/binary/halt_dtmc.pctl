@@ -1,2 +1,2 @@
-P=? [ F<=100 halt=true ]
+P=? [ F<=100 state != 1  ]
 
