@@ -6,6 +6,7 @@ fprintf("Code Rate = 0.8413\n");
 fprintf("SNR = 4.5\n");
 fprintf("Threshold = -0.55\n");
 fprintf("Weight = 1/6 (%f) \n",1/6);
+fprintf("Transient probability calculation with 600 iterations ( -tr 600 ) \n");
 check = input("Would you like to use the default values [y/n]? ","s");
 if isempty(check)
     check = 'y';
@@ -14,12 +15,14 @@ code_rate = [];
 SNR = [];
 theta = [];
 w = [];
+tag = [];
 if check ~= 'y'
     fprintf("Press enter to use default value\n");
     code_rate = input("Enter a new code rate: ");
     SNR = input("Enter a new SNR: ");
     theta = input("Enter a new threshold: ");
     w = input("Enter a new weight: ");
+    tag = input("Enter a new simulation tag or property (ie -tr 500, -ss, -prop <property>, etc...): ",'s');
 end
 base_constants = "-const ";
 if isempty(code_rate)
@@ -34,20 +37,23 @@ end
 if isempty(w)
     w = 1/6;
 end
-base_constants = base_constants+"w="+w+","+"theta="+theta+","+"SNR="+SNR+","+"r="+code_rate+",";
+if isempty(tag)
+    tag = "-tr 600";
+end
+
 file_out = fopen("output.txt","w");
 % Set number of times to run
 %rounds = input("Enter number of times to simulate: ");
 %rounds = round(rounds);
-rounds = 8; % Test every error combination
-result = zeros(1,rounds);
+E = 8; % Test every error combination
+result = zeros(1,E);
 %initialize input history
-y1 = zeros(1,rounds);
-y2 = zeros(1,rounds);
-y3 = zeros(1,rounds);
+y1 = zeros(1,E);
+y2 = zeros(1,E);
+y3 = zeros(1,E);
 
 % Run simulations
-for n = 1:rounds
+for n = 1:E
     % The y values are gaussian with mean +1 and variance N0/2
     % magnitude is taken so that error position can be determined
     sigma = sqrt(1/code_rate)*10^(-SNR/20);
@@ -57,13 +63,13 @@ for n = 1:rounds
 
     %Determine error position
     bin_n = dec2bin(n-1,3);
-    if bin_n(1) == '1' && y1(n) > 0
+    if bin_n(1) == '1'
         y1(n) = -y1(n);
     end
-    if bin_n(2) == '1' && y2(n) > 0
+    if bin_n(2) == '1' 
         y2(n) = -y2(n);
     end
-    if bin_n(3) == '1' && y3(n) > 0
+    if bin_n(3) == '1' 
         y3(n) = -y3(n);
     end
 
@@ -237,10 +243,10 @@ for n = 1:rounds
      prop_path = "binary/halt_dtmc.pctl";
      [stat, istate] = write_model(model_path,y1(n),y2(n),y3(n),p);
     % Simulate Model and Capture Output
-     [status,output] = system("prism "+ model_path +" -tr 500 ");
+     [status,output] = system("prism "+ model_path +" "+tag);
       if status == 1
-         fprintf("%s",output);
-         exit();
+         fprintf("%s\n",output);
+         return;
      else
         %% Process output
         % extract result probability
