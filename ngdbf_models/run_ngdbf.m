@@ -1,11 +1,6 @@
 % Wrapper for NGDBF Prism Models
-function [p,y] = run_ngdbf(trans_mat)
+function [p,y] = run_ngdbf(adj_mat)
     clc;
-    if width(trans_mat) ~= length(trans_mat)
-        fprintf("Error: Dimensions of transition matrix do not match\n");
-        return
-    end
-   
     % Ask for inputs
     fprintf("Default Values\n");
     fprintf("Code Rate = 0.8413\n");
@@ -48,18 +43,17 @@ function [p,y] = run_ngdbf(trans_mat)
     end
     
     file_out = fopen("output.txt","w"); % Open output file
-    var_size = length(trans_mat); % Number of variable nodes
-    check_size = sum(sum(trans_mat))-var_size; % Number of check nodes
-    error_total = 2^var_size; % Number of possible errors
-    y = zeros(1,var_size); %initialize inputs
-    
+    sym_size = width(adj_mat); % Number of variable nodes
+    check_size = length(adj_mat); % Number of check nodes
+    error_total = 2^sym_size; % Number of possible errors
+    sigma = sqrt(1/code_rate)*10^(-SNR/20);
+
     % Run simulations
     for idx = 1:error_total
-        sigma = sqrt(1/code_rate)*10^(-SNR/20);
-        bin_pos = dec2bin(idx-1,var_size);
-        x_sign = zeros(1,var_size);
-        %Produce y values
-        for n = 1:var_size
+        %%%%%%%%%%%%%%%%%%%%%%%% Produce input values %%%%%%%%%%%%%%%%%%%%%
+        bin_pos = dec2bin(idx-1,sym_size);
+        y = zeros(1,sym_size); %initialize inputs
+        for n = 1:sym_size
             % The y values are gaussian with mean +1 and variance N0/2
             % magnitude is taken so that error position can be determined
             y(n) = abs(normrnd(1,sigma));
@@ -67,17 +61,16 @@ function [p,y] = run_ngdbf(trans_mat)
             if bin_pos(n) == '1'
                 y(n) = -y(n);
             end
-            % Set initial node values
-            x_sign(n) = sign(y(n));
         end
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
-        % Create state matrix
+        %%%%%%%%%%%%%%%%%%%%% Create state matrix %%%%%%%%%%%%%%%%%%%%%%%%%
         % States taken from Tasnuva dissertation (Table 3.1, pg 27)
-        x_str = [dec2bin(0:(2^var_size)-1,var_size)];
-        x = zeros(2^var_size,var_size);
+        x_str = [dec2bin(0:(2^sym_size)-1,sym_size)];
+        x = zeros(2^sym_size,sym_size);
         % convert to bipolar states
-        for row = 1:2^var_size
-            for col = 1:var_size
+        for row = 1:2^sym_size
+            for col = 1:sym_size
                   x(row,col) = str2num(x_str(row,col));
                 if x(row,col) == 1
                     x(row,col) = -1;
@@ -87,49 +80,45 @@ function [p,y] = run_ngdbf(trans_mat)
             end
         end
         %x = int(x);
-    
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+        %%%%%%%%%%% Calculate Energies and Check nodes %%%%%%%%%%%%%%%%%%%% 
+        %   MAKE THIS BLOCK WORK WITH ADJACENCY MATRIX
         %initialize Energy and check node matrices
-        E = zeros(2^var_size,var_size);
-        s = zeros(1, check_size);
-        s_sum = zeros(1,var_size);
+        E = zeros(2^sym_size,sym_size);
+        chk_nodes = ones(1, check_size);
+        chk_sum = zeros(1,sym_size);
         % Calculate all possible energy values for each state
-        for row = 1:2^var_size
+        for row = 1:2^sym_size
             % Calculate all check nodes
-            s_idx = 1;
-            for tran_row = 1:length(trans_mat)
-                for tran_col = 1:tran_row
-                    if trans_mat(tran_row,tran_col) == 1
-                        if tran_row == tran_col
-                            s(s_idx) = x(row,tran_row);
-                            s_sum(tran_row) = s_sum(tran_row)+s(s_idx);
-                        else
-                            s(s_idx) = x(row,tran_row)*x(row,tran_col);
-                            s_sum(tran_row) = s_sum(tran_row)+s(s_idx);
-                            s_sum(tran_col) = s_sum(tran_col)+s(s_idx);
-                        end
-                        s_idx = s_idx+1;
+            for adj_row = 1:check_size
+                for adj_col = 1:sym_size
+                    if adj_mat(adj_row,adj_col) == 1
+                       chk_nodes(adj_row) = chk_nodes(adj_row)*x(row,adj_col);
+                       chk_sum(adj_col) = chk_sum(adj_col)+chk_nodes(adj_row);
                     end
                 end
             end
             % Calculate energy values
-            for E_idx = 1:var_size
-                E(row,E_idx) = y(E_idx)*x(row,E_idx)+w*s_sum(E_idx);
+            for E_idx = 1:sym_size
+                E(row,E_idx) = y(E_idx)*x(row,E_idx)+w*chk_sum(E_idx);
             end
         end
-    
-        %% calculate transition probabilities
-        p = ones(2^var_size,2^var_size);
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+        %%%%%%%%%%%%%%%% Calculate transition probabilities %%%%%%%%%%%%%%%
+        p = ones(2^sym_size,2^sym_size);
         % Flip probabilities calculated according to Eq 3.13 in Tasnuva
         % dissertation (pg. 26)
-        for row = 1:2^var_size
-            px = zeros(1,var_size);
-            for p_idx = 1:var_size
+        for row = 1:2^sym_size
+            px = zeros(1,sym_size);
+            for p_idx = 1:sym_size
                 px(p_idx) = normcdf(theta,E(row,p_idx),sigma);
             end
-            rowbin = dec2bin(row-1,var_size);
-            for col = 1:2^var_size
-                colbin = dec2bin(col-1,var_size);
-                for p_idx = 1:var_size
+            rowbin = dec2bin(row-1,sym_size);
+            for col = 1:2^sym_size
+                colbin = dec2bin(col-1,sym_size);
+                for p_idx = 1:sym_size
                     if rowbin(p_idx) == colbin(p_idx)
                         p(row,col) = p(row,col)*(1-px(p_idx));
                     else
@@ -139,35 +128,27 @@ function [p,y] = run_ngdbf(trans_mat)
             end
         end
         
-        if sum(round(sum(p.'))) ~= 2^var_size
+        if sum(round(sum(p.'))) ~= 2^sym_size
             fprintf("Error: Probabilities do not sum to 1\n");
             return;
         end
-    
-        %% Write File
-        % constants = base_constants+"y1="+y1(n)+",y2="+y2(n)+",y3="+y3(n);
-        
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+        %%%%%%%%%%%%%%%%%%%%%% Write File %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % Select NGDBF Model
-        % Only the dtmc binary model is complete
          model_path = "binary/dtmc_ngdbf_3bit.prism";
-        % prop_path = "binary/halt_dtmc.pctl";
          [stat, istate] = write_model(model_path,y,p);
+
         % Simulate Model and Capture Output
          [status,output] = system("prism "+ model_path +" "+tag);
           if status == 1 || stat == 1
              fprintf("%s\n",output);
              return;
          else
-            %% Process output
-            % extract result probability
-    %         temp1 = regexp(output,"Result: ",'split'); 
-    %         temp2 = split(temp1(2),' ');
-    %         result(n) = str2double(temp2(1));
-            
-     
+            % TODO: Process output
             fprintf(file_out,"%s\ninitial state: %d\n----------------------------------------------------------------------------------------------------\n\n",output,istate);
           end
-    
+          %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     end
     fclose(file_out);
 end
