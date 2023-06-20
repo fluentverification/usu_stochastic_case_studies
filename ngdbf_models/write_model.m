@@ -21,7 +21,7 @@ function [status,state] = write_model(fileName,y,p)
         if i ~= 1
             fprintf(fid,"\t[] state=%d -> ",i);
             for j=1:2^y_size
-                fprintf(fid,"%.8f:(state'=%d)",p(i,j),j);
+                fprintf(fid,"%.16f:(state'=%d)",p(i,j),j);
                 if j ~= 2^y_size
                     fprintf(fid,"+");
                 end

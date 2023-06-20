@@ -3,12 +3,12 @@ PRISM
 =====
 
 Version: 4.7
-Date: Wed Jun 14 13:22:06 MDT 2023
+Date: Mon Jun 19 22:38:47 MDT 2023
 Hostname: ERIC-LAPTOP
 Memory limits: cudd=1g, java(heap)=512m
-Command line: prism binary/dtmc_ngdbf_3bit.prism -tr 600
+Command line: prism models/ngdbf_trapping_3symbol_000.prism -tr 600
 
-Parsing model file "binary/dtmc_ngdbf_3bit.prism"...
+Parsing model file "models/ngdbf_trapping_3symbol_000.prism"...
 
 Type:        DTMC
 Modules:     trapping_set 
@@ -20,35 +20,11 @@ Computing transient probabilities (time = 600)...
 
 Building model...
 
-Warning: Update 3 of command 2 of module "trapping_set" doesn't do anything ("(state'=3)", line 6, column 78)
-
-Warning: Update 4 of command 2 of module "trapping_set" doesn't do anything ("(state'=4)", line 6, column 100)
-
-Warning: Update 7 of command 2 of module "trapping_set" doesn't do anything ("(state'=7)", line 6, column 166)
-
-Warning: Update 8 of command 2 of module "trapping_set" doesn't do anything ("(state'=8)", line 6, column 188)
-
-Warning: Update 3 of command 5 of module "trapping_set" doesn't do anything ("(state'=3)", line 9, column 78)
-
-Warning: Update 4 of command 5 of module "trapping_set" doesn't do anything ("(state'=4)", line 9, column 100)
-
-Warning: Update 7 of command 5 of module "trapping_set" doesn't do anything ("(state'=7)", line 9, column 166)
-
-Warning: Update 8 of command 5 of module "trapping_set" doesn't do anything ("(state'=8)", line 9, column 188)
-
-Warning: Update 3 of command 6 of module "trapping_set" doesn't do anything ("(state'=3)", line 10, column 78)
-
-Warning: Update 4 of command 6 of module "trapping_set" doesn't do anything ("(state'=4)", line 10, column 100)
-
-Warning: Update 7 of command 6 of module "trapping_set" doesn't do anything ("(state'=7)", line 10, column 166)
-
-Warning: Update 8 of command 6 of module "trapping_set" doesn't do anything ("(state'=8)", line 10, column 188)
-
 Computing reachable states...
 
 Reachability (BFS): 1 iterations in 0.00 seconds (average 0.000000, setup 0.00)
 
-Time for model construction: 0.036 seconds.
+Time for model construction: 0.092 seconds.
 
 Type:        DTMC
 States:      1 (1 initial)
@@ -73,11 +49,7 @@ Iterative method: 1 iterations in 0.00 seconds (average 0.000000, setup 0.00)
 Printing transient probabilities in plain text format below:
 0:(2)=1.0
 
-Time for transient probability computation: 0.048 seconds.
-
----------------------------------------------------------------------
-
-Note: There were 12 warnings during computation.
+Time for transient probability computation: 0.152 seconds.
 
 
 initial state: 1
@@ -88,12 +60,12 @@ PRISM
 =====
 
 Version: 4.7
-Date: Wed Jun 14 13:22:07 MDT 2023
+Date: Mon Jun 19 22:38:50 MDT 2023
 Hostname: ERIC-LAPTOP
 Memory limits: cudd=1g, java(heap)=512m
-Command line: prism binary/dtmc_ngdbf_3bit.prism -tr 600
+Command line: prism models/ngdbf_trapping_3symbol_001.prism -tr 600
 
-Parsing model file "binary/dtmc_ngdbf_3bit.prism"...
+Parsing model file "models/ngdbf_trapping_3symbol_001.prism"...
 
 Type:        DTMC
 Modules:     trapping_set 
@@ -105,53 +77,41 @@ Computing transient probabilities (time = 600)...
 
 Building model...
 
-Warning: Update 7 of command 2 of module "trapping_set" doesn't do anything ("(state'=7)", line 6, column 166)
-
-Warning: Update 8 of command 2 of module "trapping_set" doesn't do anything ("(state'=8)", line 6, column 188)
-
-Warning: Update 3 of command 6 of module "trapping_set" doesn't do anything ("(state'=3)", line 10, column 78)
-
-Warning: Update 7 of command 6 of module "trapping_set" doesn't do anything ("(state'=7)", line 10, column 166)
-
 Computing reachable states...
 
 Reachability (BFS): 2 iterations in 0.00 seconds (average 0.000000, setup 0.00)
 
-Time for model construction: 0.03 seconds.
+Time for model construction: 0.081 seconds.
 
 Type:        DTMC
 States:      8 (1 initial)
-Transitions: 53
+Transitions: 57
 
-Transition matrix: 107 nodes (50 terminal), 53 minterms, vars: 3r/3c
+Transition matrix: 118 nodes (58 terminal), 57 minterms, vars: 3r/3c
 
 Computing probabilities...
 Engine: Hybrid
 
-Building hybrid MTBDD matrix... [levels=3, nodes=107] [5.0 KB]
-Adding explicit sparse matrices... [levels=3, num=1, compact] [0.6 KB]
+Building hybrid MTBDD matrix... [levels=3, nodes=118] [5.5 KB]
+Adding explicit sparse matrices... [levels=3, num=1, compact] [0.7 KB]
 Allocating iteration vectors... [3 x 0.1 KB]
-TOTAL: [5.8 KB]
+TOTAL: [6.4 KB]
 
 Starting iterations...
 
 Iterative method: 600 iterations in 0.00 seconds (average 0.000000, setup 0.00)
 
 Printing transient probabilities in plain text format below:
-0:(2)=0.9999999999999973
-1:(3)=5.216336733978737E-41
-2:(4)=4.123310731731545E-46
-3:(5)=2.934449738739357E-45
-4:(6)=1.8584080502353043E-47
-5:(7)=8.708787245449344E-47
-6:(8)=2.7616369979642463E-52
-7:(9)=2.950065800539102E-51
+0:(2)=0.9999999999999338
+1:(3)=6.772828487015639E-15
+2:(4)=7.935811989973838E-21
+3:(5)=5.135221404671961E-20
+4:(6)=2.8382344953176232E-14
+5:(7)=2.6183982689212574E-14
+6:(8)=6.030677380511042E-20
+7:(9)=2.1492806491001538E-19
 
-Time for transient probability computation: 0.043 seconds.
-
----------------------------------------------------------------------
-
-Note: There were 4 warnings during computation.
+Time for transient probability computation: 0.137 seconds.
 
 
 initial state: 5
@@ -162,12 +122,12 @@ PRISM
 =====
 
 Version: 4.7
-Date: Wed Jun 14 13:22:08 MDT 2023
+Date: Mon Jun 19 22:38:52 MDT 2023
 Hostname: ERIC-LAPTOP
 Memory limits: cudd=1g, java(heap)=512m
-Command line: prism binary/dtmc_ngdbf_3bit.prism -tr 600
+Command line: prism models/ngdbf_trapping_3symbol_010.prism -tr 600
 
-Parsing model file "binary/dtmc_ngdbf_3bit.prism"...
+Parsing model file "models/ngdbf_trapping_3symbol_010.prism"...
 
 Type:        DTMC
 Modules:     trapping_set 
@@ -179,87 +139,41 @@ Computing transient probabilities (time = 600)...
 
 Building model...
 
-Warning: Update 6 of command 2 of module "trapping_set" doesn't do anything ("(state'=6)", line 6, column 144)
-
-Warning: Update 8 of command 2 of module "trapping_set" doesn't do anything ("(state'=8)", line 6, column 188)
-
-Warning: Update 2 of command 3 of module "trapping_set" doesn't do anything ("(state'=2)", line 7, column 56)
-
-Warning: Update 5 of command 3 of module "trapping_set" doesn't do anything ("(state'=5)", line 7, column 122)
-
-Warning: Update 6 of command 3 of module "trapping_set" doesn't do anything ("(state'=6)", line 7, column 144)
-
-Warning: Update 8 of command 3 of module "trapping_set" doesn't do anything ("(state'=8)", line 7, column 188)
-
-Warning: Update 2 of command 4 of module "trapping_set" doesn't do anything ("(state'=2)", line 8, column 56)
-
-Warning: Update 5 of command 4 of module "trapping_set" doesn't do anything ("(state'=5)", line 8, column 122)
-
-Warning: Update 6 of command 4 of module "trapping_set" doesn't do anything ("(state'=6)", line 8, column 144)
-
-Warning: Update 2 of command 5 of module "trapping_set" doesn't do anything ("(state'=2)", line 9, column 56)
-
-Warning: Update 4 of command 5 of module "trapping_set" doesn't do anything ("(state'=4)", line 9, column 100)
-
-Warning: Update 6 of command 5 of module "trapping_set" doesn't do anything ("(state'=6)", line 9, column 144)
-
-Warning: Update 8 of command 5 of module "trapping_set" doesn't do anything ("(state'=8)", line 9, column 188)
-
-Warning: Update 1 of command 7 of module "trapping_set" doesn't do anything ("(state'=1)", line 11, column 34)
-
-Warning: Update 2 of command 7 of module "trapping_set" doesn't do anything ("(state'=2)", line 11, column 56)
-
-Warning: Update 4 of command 7 of module "trapping_set" doesn't do anything ("(state'=4)", line 11, column 100)
-
-Warning: Update 6 of command 7 of module "trapping_set" doesn't do anything ("(state'=6)", line 11, column 144)
-
-Warning: Update 8 of command 7 of module "trapping_set" doesn't do anything ("(state'=8)", line 11, column 188)
-
-Warning: Update 1 of command 8 of module "trapping_set" doesn't do anything ("(state'=1)", line 12, column 34)
-
-Warning: Update 2 of command 8 of module "trapping_set" doesn't do anything ("(state'=2)", line 12, column 56)
-
-Warning: Update 5 of command 8 of module "trapping_set" doesn't do anything ("(state'=5)", line 12, column 122)
-
-Warning: Update 6 of command 8 of module "trapping_set" doesn't do anything ("(state'=6)", line 12, column 144)
-
 Computing reachable states...
 
-Reachability (BFS): 3 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+Reachability (BFS): 2 iterations in 0.00 seconds (average 0.000000, setup 0.00)
 
-Time for model construction: 0.031 seconds.
+Time for model construction: 0.079 seconds.
 
 Type:        DTMC
-States:      6 (1 initial)
-Transitions: 21
+States:      8 (1 initial)
+Transitions: 57
 
-Transition matrix: 62 nodes (21 terminal), 21 minterms, vars: 3r/3c
+Transition matrix: 118 nodes (58 terminal), 57 minterms, vars: 3r/3c
 
 Computing probabilities...
 Engine: Hybrid
 
-Building hybrid MTBDD matrix... [levels=3, nodes=62] [2.9 KB]
-Adding explicit sparse matrices... [levels=3, num=1, compact] [0.2 KB]
-Allocating iteration vectors... [3 x 0.0 KB]
-TOTAL: [3.3 KB]
+Building hybrid MTBDD matrix... [levels=3, nodes=118] [5.5 KB]
+Adding explicit sparse matrices... [levels=3, num=1, compact] [0.7 KB]
+Allocating iteration vectors... [3 x 0.1 KB]
+TOTAL: [6.4 KB]
 
 Starting iterations...
 
 Iterative method: 600 iterations in 0.00 seconds (average 0.000000, setup 0.00)
 
 Printing transient probabilities in plain text format below:
-0:(2)=0.01784678475107118
-1:(4)=0.9815848713630008
-2:(5)=9.816983680922572E-9
-3:(6)=1.2353488480237362E-11
-4:(8)=5.683340565782928E-4
-5:(9)=1.9643545213195822E-16
+0:(2)=0.9957866014124256
+1:(3)=1.0900007333713634E-5
+2:(4)=0.0033649864470105843
+3:(5)=8.341019380340639E-4
+4:(6)=2.2661612730767888E-8
+5:(7)=4.508527213400251E-9
+6:(8)=2.6904693175097193E-6
+7:(9)=6.925557540669598E-7
 
-Time for transient probability computation: 0.051 seconds.
-
----------------------------------------------------------------------
-
-Note: There were 22 warnings during computation.
+Time for transient probability computation: 0.143 seconds.
 
 
 initial state: 3
@@ -270,12 +184,12 @@ PRISM
 =====
 
 Version: 4.7
-Date: Wed Jun 14 13:22:09 MDT 2023
+Date: Mon Jun 19 22:38:53 MDT 2023
 Hostname: ERIC-LAPTOP
 Memory limits: cudd=1g, java(heap)=512m
-Command line: prism binary/dtmc_ngdbf_3bit.prism -tr 600
+Command line: prism models/ngdbf_trapping_3symbol_011.prism -tr 600
 
-Parsing model file "binary/dtmc_ngdbf_3bit.prism"...
+Parsing model file "models/ngdbf_trapping_3symbol_011.prism"...
 
 Type:        DTMC
 Modules:     trapping_set 
@@ -287,86 +201,41 @@ Computing transient probabilities (time = 600)...
 
 Building model...
 
-Warning: Update 3 of command 2 of module "trapping_set" doesn't do anything ("(state'=3)", line 6, column 78)
-
-Warning: Update 5 of command 2 of module "trapping_set" doesn't do anything ("(state'=5)", line 6, column 122)
-
-Warning: Update 6 of command 2 of module "trapping_set" doesn't do anything ("(state'=6)", line 6, column 144)
-
-Warning: Update 7 of command 2 of module "trapping_set" doesn't do anything ("(state'=7)", line 6, column 166)
-
-Warning: Update 8 of command 2 of module "trapping_set" doesn't do anything ("(state'=8)", line 6, column 188)
-
-Warning: Update 5 of command 3 of module "trapping_set" doesn't do anything ("(state'=5)", line 7, column 122)
-
-Warning: Update 6 of command 3 of module "trapping_set" doesn't do anything ("(state'=6)", line 7, column 144)
-
-Warning: Update 7 of command 3 of module "trapping_set" doesn't do anything ("(state'=7)", line 7, column 166)
-
-Warning: Update 8 of command 3 of module "trapping_set" doesn't do anything ("(state'=8)", line 7, column 188)
-
-Warning: Update 1 of command 4 of module "trapping_set" doesn't do anything ("(state'=1)", line 8, column 34)
-
-Warning: Update 3 of command 4 of module "trapping_set" doesn't do anything ("(state'=3)", line 8, column 78)
-
-Warning: Update 5 of command 4 of module "trapping_set" doesn't do anything ("(state'=5)", line 8, column 122)
-
-Warning: Update 6 of command 4 of module "trapping_set" doesn't do anything ("(state'=6)", line 8, column 144)
-
-Warning: Update 7 of command 4 of module "trapping_set" doesn't do anything ("(state'=7)", line 8, column 166)
-
-Warning: Update 8 of command 4 of module "trapping_set" doesn't do anything ("(state'=8)", line 8, column 188)
-
-Warning: Update 3 of command 6 of module "trapping_set" doesn't do anything ("(state'=3)", line 10, column 78)
-
-Warning: Update 5 of command 6 of module "trapping_set" doesn't do anything ("(state'=5)", line 10, column 122)
-
-Warning: Update 7 of command 6 of module "trapping_set" doesn't do anything ("(state'=7)", line 10, column 166)
-
-Warning: Update 5 of command 7 of module "trapping_set" doesn't do anything ("(state'=5)", line 11, column 122)
-
-Warning: Update 1 of command 8 of module "trapping_set" doesn't do anything ("(state'=1)", line 12, column 34)
-
-Warning: Update 3 of command 8 of module "trapping_set" doesn't do anything ("(state'=3)", line 12, column 78)
-
-Warning: Update 5 of command 8 of module "trapping_set" doesn't do anything ("(state'=5)", line 12, column 122)
-
-Warning: Update 7 of command 8 of module "trapping_set" doesn't do anything ("(state'=7)", line 12, column 166)
-
 Computing reachable states...
 
 Reachability (BFS): 2 iterations in 0.00 seconds (average 0.000000, setup 0.00)
 
-Time for model construction: 0.047 seconds.
+Time for model construction: 0.036 seconds.
 
 Type:        DTMC
-States:      7 (1 initial)
-Transitions: 26
+States:      8 (1 initial)
+Transitions: 57
 
-Transition matrix: 69 nodes (26 terminal), 26 minterms, vars: 3r/3c
+Transition matrix: 118 nodes (58 terminal), 57 minterms, vars: 3r/3c
 
 Computing probabilities...
 Engine: Hybrid
 
-Building hybrid MTBDD matrix... [levels=3, nodes=69] [3.2 KB]
-Adding explicit sparse matrices... [levels=3, num=1, compact] [0.3 KB]
+Building hybrid MTBDD matrix... [levels=3, nodes=118] [5.5 KB]
+Adding explicit sparse matrices... [levels=3, num=1, compact] [0.7 KB]
 Allocating iteration vectors... [3 x 0.1 KB]
-TOTAL: [3.7 KB]
+TOTAL: [6.4 KB]
 
 Starting iterations...
 
 Iterative method: 600 iterations in 0.00 seconds (average 0.000000, setup 0.00)
 
 Printing transient probabilities in plain text format below:
-0:(2)=4.31161417800649E-6
-1:(3)=0.262423023653244
-3:(5)=0.7375726647325497
+0:(2)=0.8670263253355409
+1:(3)=0.0031051724301012183
+2:(4)=0.01384495977638426
+3:(5)=0.11591061996954215
+4:(6)=1.1319811549773866E-6
+5:(7)=3.2477274212810977E-6
+6:(8)=8.331897246052747E-6
+7:(9)=1.00210882627325E-4
 
-Time for transient probability computation: 0.063 seconds.
-
----------------------------------------------------------------------
-
-Note: There were 23 warnings during computation.
+Time for transient probability computation: 0.08 seconds.
 
 
 initial state: 7
@@ -377,12 +246,12 @@ PRISM
 =====
 
 Version: 4.7
-Date: Wed Jun 14 13:22:09 MDT 2023
+Date: Mon Jun 19 22:38:55 MDT 2023
 Hostname: ERIC-LAPTOP
 Memory limits: cudd=1g, java(heap)=512m
-Command line: prism binary/dtmc_ngdbf_3bit.prism -tr 600
+Command line: prism models/ngdbf_trapping_3symbol_100.prism -tr 600
 
-Parsing model file "binary/dtmc_ngdbf_3bit.prism"...
+Parsing model file "models/ngdbf_trapping_3symbol_100.prism"...
 
 Type:        DTMC
 Modules:     trapping_set 
@@ -394,61 +263,41 @@ Computing transient probabilities (time = 600)...
 
 Building model...
 
-Warning: Update 2 of command 5 of module "trapping_set" doesn't do anything ("(state'=2)", line 9, column 56)
-
-Warning: Update 3 of command 5 of module "trapping_set" doesn't do anything ("(state'=3)", line 9, column 78)
-
-Warning: Update 4 of command 5 of module "trapping_set" doesn't do anything ("(state'=4)", line 9, column 100)
-
-Warning: Update 8 of command 5 of module "trapping_set" doesn't do anything ("(state'=8)", line 9, column 188)
-
-Warning: Update 3 of command 6 of module "trapping_set" doesn't do anything ("(state'=3)", line 10, column 78)
-
-Warning: Update 4 of command 6 of module "trapping_set" doesn't do anything ("(state'=4)", line 10, column 100)
-
-Warning: Update 2 of command 7 of module "trapping_set" doesn't do anything ("(state'=2)", line 11, column 56)
-
-Warning: Update 4 of command 7 of module "trapping_set" doesn't do anything ("(state'=4)", line 11, column 100)
-
 Computing reachable states...
 
 Reachability (BFS): 2 iterations in 0.00 seconds (average 0.000000, setup 0.00)
 
-Time for model construction: 0.016 seconds.
+Time for model construction: 0.056 seconds.
 
 Type:        DTMC
 States:      8 (1 initial)
-Transitions: 49
+Transitions: 57
 
-Transition matrix: 105 nodes (48 terminal), 49 minterms, vars: 3r/3c
+Transition matrix: 118 nodes (58 terminal), 57 minterms, vars: 3r/3c
 
 Computing probabilities...
 Engine: Hybrid
 
-Building hybrid MTBDD matrix... [levels=3, nodes=105] [4.9 KB]
-Adding explicit sparse matrices... [levels=3, num=1, compact] [0.6 KB]
+Building hybrid MTBDD matrix... [levels=3, nodes=118] [5.5 KB]
+Adding explicit sparse matrices... [levels=3, num=1, compact] [0.7 KB]
 Allocating iteration vectors... [3 x 0.1 KB]
-TOTAL: [5.7 KB]
+TOTAL: [6.4 KB]
 
 Starting iterations...
 
 Iterative method: 600 iterations in 0.00 seconds (average 0.000000, setup 0.00)
 
 Printing transient probabilities in plain text format below:
-0:(2)=0.5421208388900709
-1:(3)=6.351297562110737E-12
-2:(4)=6.447387874639501E-9
-3:(5)=9.944462214414818E-12
-4:(6)=0.45723828177160836
-5:(7)=2.6882534563711846E-5
-6:(8)=6.136256871453492E-4
-7:(9)=3.646529371172832E-7
+0:(2)=0.999999999999973
+1:(3)=1.2167352962035154E-17
+2:(4)=4.0290409514434175E-24
+3:(5)=2.463601978316056E-25
+4:(6)=2.3746284121696562E-14
+5:(7)=2.2783715177440573E-16
+6:(8)=1.3874757767087007E-22
+7:(9)=5.657739602999547E-24
 
-Time for transient probability computation: 0.041 seconds.
-
----------------------------------------------------------------------
-
-Note: There were 8 warnings during computation.
+Time for transient probability computation: 0.108 seconds.
 
 
 initial state: 2
@@ -459,12 +308,12 @@ PRISM
 =====
 
 Version: 4.7
-Date: Wed Jun 14 13:22:10 MDT 2023
+Date: Mon Jun 19 22:38:57 MDT 2023
 Hostname: ERIC-LAPTOP
 Memory limits: cudd=1g, java(heap)=512m
-Command line: prism binary/dtmc_ngdbf_3bit.prism -tr 600
+Command line: prism models/ngdbf_trapping_3symbol_101.prism -tr 600
 
-Parsing model file "binary/dtmc_ngdbf_3bit.prism"...
+Parsing model file "models/ngdbf_trapping_3symbol_101.prism"...
 
 Type:        DTMC
 Modules:     trapping_set 
@@ -476,63 +325,41 @@ Computing transient probabilities (time = 600)...
 
 Building model...
 
-Warning: Update 3 of command 2 of module "trapping_set" doesn't do anything ("(state'=3)", line 6, column 78)
-
-Warning: Update 7 of command 2 of module "trapping_set" doesn't do anything ("(state'=7)", line 6, column 166)
-
-Warning: Update 3 of command 5 of module "trapping_set" doesn't do anything ("(state'=3)", line 9, column 78)
-
-Warning: Update 3 of command 6 of module "trapping_set" doesn't do anything ("(state'=3)", line 10, column 78)
-
-Warning: Update 4 of command 6 of module "trapping_set" doesn't do anything ("(state'=4)", line 10, column 100)
-
-Warning: Update 7 of command 6 of module "trapping_set" doesn't do anything ("(state'=7)", line 10, column 166)
-
-Warning: Update 1 of command 8 of module "trapping_set" doesn't do anything ("(state'=1)", line 12, column 34)
-
-Warning: Update 3 of command 8 of module "trapping_set" doesn't do anything ("(state'=3)", line 12, column 78)
-
-Warning: Update 5 of command 8 of module "trapping_set" doesn't do anything ("(state'=5)", line 12, column 122)
-
 Computing reachable states...
 
-Reachability (BFS): 4 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+Reachability (BFS): 2 iterations in 0.00 seconds (average 0.000000, setup 0.00)
 
-Time for model construction: 0.032 seconds.
+Time for model construction: 0.06 seconds.
 
 Type:        DTMC
 States:      8 (1 initial)
-Transitions: 48
+Transitions: 57
 
-Transition matrix: 108 nodes (49 terminal), 48 minterms, vars: 3r/3c
+Transition matrix: 118 nodes (58 terminal), 57 minterms, vars: 3r/3c
 
 Computing probabilities...
 Engine: Hybrid
 
-Building hybrid MTBDD matrix... [levels=3, nodes=108] [5.1 KB]
-Adding explicit sparse matrices... [levels=3, num=1, compact] [0.6 KB]
+Building hybrid MTBDD matrix... [levels=3, nodes=118] [5.5 KB]
+Adding explicit sparse matrices... [levels=3, num=1, compact] [0.7 KB]
 Allocating iteration vectors... [3 x 0.1 KB]
-TOTAL: [5.8 KB]
+TOTAL: [6.4 KB]
 
 Starting iterations...
 
 Iterative method: 600 iterations in 0.00 seconds (average 0.000000, setup 0.00)
 
 Printing transient probabilities in plain text format below:
-0:(2)=2.8414853792432034E-5
-1:(3)=6.757726244843101E-4
-2:(4)=1.606509744687513E-12
-3:(5)=3.953745495303348E-7
-4:(6)=5.7474908961392034E-5
-5:(7)=0.9991285930288464
-6:(8)=1.6764080644812594E-10
-7:(9)=1.0934904007108066E-4
+0:(2)=0.9938859176826196
+1:(3)=1.4339229678189086E-4
+2:(4)=8.682937409193955E-6
+3:(5)=1.236062351198316E-4
+4:(6)=0.002092901154669997
+5:(7)=0.002810904913928351
+6:(8)=3.817451033535033E-5
+7:(9)=8.964202691279202E-4
 
-Time for transient probability computation: 0.047 seconds.
-
----------------------------------------------------------------------
-
-Note: There were 9 warnings during computation.
+Time for transient probability computation: 0.108 seconds.
 
 
 initial state: 6
@@ -543,12 +370,12 @@ PRISM
 =====
 
 Version: 4.7
-Date: Wed Jun 14 13:22:11 MDT 2023
+Date: Mon Jun 19 22:38:58 MDT 2023
 Hostname: ERIC-LAPTOP
 Memory limits: cudd=1g, java(heap)=512m
-Command line: prism binary/dtmc_ngdbf_3bit.prism -tr 600
+Command line: prism models/ngdbf_trapping_3symbol_110.prism -tr 600
 
-Parsing model file "binary/dtmc_ngdbf_3bit.prism"...
+Parsing model file "models/ngdbf_trapping_3symbol_110.prism"...
 
 Type:        DTMC
 Modules:     trapping_set 
@@ -560,78 +387,41 @@ Computing transient probabilities (time = 600)...
 
 Building model...
 
-Warning: Update 2 of command 3 of module "trapping_set" doesn't do anything ("(state'=2)", line 7, column 56)
-
-Warning: Update 6 of command 3 of module "trapping_set" doesn't do anything ("(state'=6)", line 7, column 144)
-
-Warning: Update 2 of command 4 of module "trapping_set" doesn't do anything ("(state'=2)", line 8, column 56)
-
-Warning: Update 2 of command 5 of module "trapping_set" doesn't do anything ("(state'=2)", line 9, column 56)
-
-Warning: Update 4 of command 5 of module "trapping_set" doesn't do anything ("(state'=4)", line 9, column 100)
-
-Warning: Update 2 of command 6 of module "trapping_set" doesn't do anything ("(state'=2)", line 10, column 56)
-
-Warning: Update 4 of command 6 of module "trapping_set" doesn't do anything ("(state'=4)", line 10, column 100)
-
-Warning: Update 1 of command 7 of module "trapping_set" doesn't do anything ("(state'=1)", line 11, column 34)
-
-Warning: Update 2 of command 7 of module "trapping_set" doesn't do anything ("(state'=2)", line 11, column 56)
-
-Warning: Update 4 of command 7 of module "trapping_set" doesn't do anything ("(state'=4)", line 11, column 100)
-
-Warning: Update 5 of command 7 of module "trapping_set" doesn't do anything ("(state'=5)", line 11, column 122)
-
-Warning: Update 6 of command 7 of module "trapping_set" doesn't do anything ("(state'=6)", line 11, column 144)
-
-Warning: Update 1 of command 8 of module "trapping_set" doesn't do anything ("(state'=1)", line 12, column 34)
-
-Warning: Update 2 of command 8 of module "trapping_set" doesn't do anything ("(state'=2)", line 12, column 56)
-
-Warning: Update 5 of command 8 of module "trapping_set" doesn't do anything ("(state'=5)", line 12, column 122)
-
-Warning: Update 6 of command 8 of module "trapping_set" doesn't do anything ("(state'=6)", line 12, column 144)
-
 Computing reachable states...
 
 Reachability (BFS): 2 iterations in 0.00 seconds (average 0.000000, setup 0.00)
 
-Time for model construction: 0.031 seconds.
+Time for model construction: 0.044 seconds.
 
 Type:        DTMC
-States:      7 (1 initial)
-Transitions: 33
+States:      8 (1 initial)
+Transitions: 57
 
-Transition matrix: 76 nodes (31 terminal), 33 minterms, vars: 3r/3c
+Transition matrix: 118 nodes (58 terminal), 57 minterms, vars: 3r/3c
 
 Computing probabilities...
 Engine: Hybrid
 
-Building hybrid MTBDD matrix... [levels=3, nodes=77] [3.6 KB]
-Adding explicit sparse matrices... [levels=3, num=1, compact] [0.4 KB]
+Building hybrid MTBDD matrix... [levels=3, nodes=118] [5.5 KB]
+Adding explicit sparse matrices... [levels=3, num=1, compact] [0.7 KB]
 Allocating iteration vectors... [3 x 0.1 KB]
-TOTAL: [4.1 KB]
+TOTAL: [6.4 KB]
 
 Starting iterations...
 
-Steady state detected at iteration 34
-
-Iterative method: 34 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+Iterative method: 600 iterations in 0.00 seconds (average 0.000000, setup 0.00)
 
 Printing transient probabilities in plain text format below:
-0:(2)=3.814456370556574E-8
-1:(4)=3.0646816022907674E-7
-2:(5)=5.135383356227723E-10
-3:(6)=5.4131954109611037E-14
-4:(7)=6.851694319604015E-18
-5:(8)=0.999275170362157
-6:(9)=7.244845115257344E-4
+0:(2)=0.9644970023969495
+1:(3)=1.0894392393846511E-4
+2:(4)=0.009456340155644678
+3:(5)=0.005026157936182987
+4:(6)=1.5068215904116356E-4
+5:(7)=9.280272466791224E-6
+6:(8)=0.01453679007255625
+7:(9)=0.006214803083227936
 
-Time for transient probability computation: 0.047 seconds.
-
----------------------------------------------------------------------
-
-Note: There were 16 warnings during computation.
+Time for transient probability computation: 0.076 seconds.
 
 
 initial state: 4
@@ -642,12 +432,12 @@ PRISM
 =====
 
 Version: 4.7
-Date: Wed Jun 14 13:22:12 MDT 2023
+Date: Mon Jun 19 22:39:00 MDT 2023
 Hostname: ERIC-LAPTOP
 Memory limits: cudd=1g, java(heap)=512m
-Command line: prism binary/dtmc_ngdbf_3bit.prism -tr 600
+Command line: prism models/ngdbf_trapping_3symbol_111.prism -tr 600
 
-Parsing model file "binary/dtmc_ngdbf_3bit.prism"...
+Parsing model file "models/ngdbf_trapping_3symbol_111.prism"...
 
 Type:        DTMC
 Modules:     trapping_set 
@@ -659,69 +449,41 @@ Computing transient probabilities (time = 600)...
 
 Building model...
 
-Warning: Update 5 of command 3 of module "trapping_set" doesn't do anything ("(state'=5)", line 7, column 122)
-
-Warning: Update 1 of command 4 of module "trapping_set" doesn't do anything ("(state'=1)", line 8, column 34)
-
-Warning: Update 5 of command 4 of module "trapping_set" doesn't do anything ("(state'=5)", line 8, column 122)
-
-Warning: Update 1 of command 7 of module "trapping_set" doesn't do anything ("(state'=1)", line 11, column 34)
-
-Warning: Update 2 of command 7 of module "trapping_set" doesn't do anything ("(state'=2)", line 11, column 56)
-
-Warning: Update 5 of command 7 of module "trapping_set" doesn't do anything ("(state'=5)", line 11, column 122)
-
-Warning: Update 6 of command 7 of module "trapping_set" doesn't do anything ("(state'=6)", line 11, column 144)
-
-Warning: Update 1 of command 8 of module "trapping_set" doesn't do anything ("(state'=1)", line 12, column 34)
-
-Warning: Update 2 of command 8 of module "trapping_set" doesn't do anything ("(state'=2)", line 12, column 56)
-
-Warning: Update 3 of command 8 of module "trapping_set" doesn't do anything ("(state'=3)", line 12, column 78)
-
-Warning: Update 5 of command 8 of module "trapping_set" doesn't do anything ("(state'=5)", line 12, column 122)
-
-Warning: Update 6 of command 8 of module "trapping_set" doesn't do anything ("(state'=6)", line 12, column 144)
-
 Computing reachable states...
 
-Reachability (BFS): 4 iterations in 0.00 seconds (average 0.000000, setup 0.00)
+Reachability (BFS): 2 iterations in 0.00 seconds (average 0.000000, setup 0.00)
 
-Time for model construction: 0.029 seconds.
+Time for model construction: 0.04 seconds.
 
 Type:        DTMC
 States:      8 (1 initial)
-Transitions: 45
+Transitions: 57
 
-Transition matrix: 98 nodes (44 terminal), 45 minterms, vars: 3r/3c
+Transition matrix: 118 nodes (58 terminal), 57 minterms, vars: 3r/3c
 
 Computing probabilities...
 Engine: Hybrid
 
-Building hybrid MTBDD matrix... [levels=3, nodes=98] [4.6 KB]
-Adding explicit sparse matrices... [levels=3, num=1, compact] [0.5 KB]
+Building hybrid MTBDD matrix... [levels=3, nodes=118] [5.5 KB]
+Adding explicit sparse matrices... [levels=3, num=1, compact] [0.7 KB]
 Allocating iteration vectors... [3 x 0.1 KB]
-TOTAL: [5.3 KB]
+TOTAL: [6.4 KB]
 
 Starting iterations...
 
 Iterative method: 600 iterations in 0.00 seconds (average 0.000000, setup 0.00)
 
 Printing transient probabilities in plain text format below:
-0:(2)=1.3511265766859008E-8
-1:(3)=1.489197093101185E-6
-2:(4)=1.1816840683836624E-6
-3:(5)=0.40687295001494195
-4:(6)=6.5393433807230605E-12
-5:(7)=2.2585110103662483E-7
-6:(8)=1.6405201745997296E-7
-7:(9)=0.593123975682981
+0:(2)=0.5145981511110114
+1:(3)=0.0050837320662117285
+2:(4)=0.015265382329719825
+3:(5)=0.19129411433863475
+4:(6)=0.0025246291458324963
+5:(7)=0.0037838145839571365
+6:(8)=0.011014066601506951
+7:(9)=0.2564361098231278
 
-Time for transient probability computation: 0.044 seconds.
-
----------------------------------------------------------------------
-
-Note: There were 12 warnings during computation.
+Time for transient probability computation: 0.088 seconds.
 
 
 initial state: 8

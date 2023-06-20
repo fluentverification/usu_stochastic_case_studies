@@ -1,6 +1,13 @@
 % Wrapper for NGDBF Prism Models
 function [p,y] = run_ngdbf(adj_mat)
     clc;
+    if ispc()
+         system('rd models');
+     end
+     if isunix() || ismac()
+         system('rm -rf models/');
+     end
+    system("mkdir models > nul");
     % Ask for inputs
     fprintf("Default Values\n");
     fprintf("Code Rate = 0.8413\n");
@@ -48,18 +55,39 @@ function [p,y] = run_ngdbf(adj_mat)
     error_total = 2^sym_size; % Number of possible errors
     sigma = sqrt(1/code_rate)*10^(-SNR/20);
 
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%% Generate sample values %%%%%%%%%%%%%%%%%%%%
+    loop_check = get_error_sample_size(sym_size);
+    valid_samples = zeros(1,loop_check);
+    valid_idx = 1;
+    error_samples = zeros(1,loop_check);
+    error_idx = 1;
+    while valid_idx <= loop_check || error_idx <= loop_check
+        temp = normrnd(1,sigma);
+        if temp > 0
+            valid_samples(valid_idx) = temp;
+            valid_idx = valid_idx +1;
+        end
+        if temp < 0
+            error_samples(error_idx) = temp;
+            error_idx = error_idx+1;
+        end
+    end
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
     % Run simulations
     for idx = 1:error_total
-        %%%%%%%%%%%%%%%%%%%%%%%% Produce input values %%%%%%%%%%%%%%%%%%%%%
+        %%%%%%%%%%%%%%%%%%%%%%%% Choose error values %%%%%%%%%%%%%%%%%%%%%%
         bin_pos = dec2bin(idx-1,sym_size);
         y = zeros(1,sym_size); %initialize inputs
         for n = 1:sym_size
-            % The y values are gaussian with mean +1 and variance N0/2
-            % magnitude is taken so that error position can be determined
-            y(n) = abs(normrnd(1,sigma));
-            %Determine error position
             if bin_pos(n) == '1'
-                y(n) = -y(n);
+                error_idx = error_idx-1;
+                % TODO: Research Gaussian tail distributioins to effectively generate error samples
+                % Temporary solution applied
+                y(n) = error_samples(error_idx); 
+            else
+                valid_idx = valid_idx-1;
+                y(n) = valid_samples(valid_idx);
             end
         end
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -83,7 +111,6 @@ function [p,y] = run_ngdbf(adj_mat)
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
         %%%%%%%%%%% Calculate Energies and Check nodes %%%%%%%%%%%%%%%%%%%% 
-        %   MAKE THIS BLOCK WORK WITH ADJACENCY MATRIX
         %initialize Energy and check node matrices
         E = zeros(2^sym_size,sym_size);
         chk_nodes = ones(1, check_size);
@@ -136,7 +163,10 @@ function [p,y] = run_ngdbf(adj_mat)
 
         %%%%%%%%%%%%%%%%%%%%%% Write File %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % Select NGDBF Model
-         model_path = "binary/dtmc_ngdbf_3bit.prism";
+
+        
+         model_path =strjoin( ['models/ngdbf_trapping_',string(sym_size),'symbol_',bin_pos,'.prism'],'');
+        % model_path = strjoin(model_path)
          [stat, istate] = write_model(model_path,y,p);
 
         % Simulate Model and Capture Output
