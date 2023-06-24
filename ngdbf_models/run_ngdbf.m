@@ -2,7 +2,7 @@
 function [p,y] = run_ngdbf(adj_mat)
     clc;
     if ispc()
-         system('rd models');
+         system('rd models/');
      end
      if isunix() || ismac()
          system('rm -rf models/');
