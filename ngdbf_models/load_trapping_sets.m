@@ -1,4 +1,3 @@
-
 % Trappping sets from University of Arizona
 % https://uweb.engr.arizona.edu/~vasiclab/Projects/CodingTheory/TrappingSetOntology.html 
 
@@ -9,6 +8,10 @@
 % c_3
 %  |
 % c_n
+fprintf("\n\nTo use trapping sets call <strong>run_ngdbf(trapping_set,explicit_model)</strong> " + ...
+    "where trapping_set \nis one the loaded sets and explicit_model is a boolean\n" + ...
+    "that is true if you would like to generate an explicit model \n(see PRISM manual for more " + ...
+    "info on explicit models)\nor false if you would like to generate a normal .prism model. \n\n\n");
 
 three_three = [
 1 0 0 
