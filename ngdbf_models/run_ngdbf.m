@@ -5,12 +5,7 @@ function [p,y] = run_ngdbf(adj_mat,explicit_model)
         explicit_model logical
     end
     clc;
-    if ispc()
-         system('rd models/');
-     end
-     if isunix() || ismac()
-         system('rm -rf models/');
-     end
+    % Create models folder
     system("mkdir models > nul");
     % Ask for inputs
     fprintf("Default Values\n");
