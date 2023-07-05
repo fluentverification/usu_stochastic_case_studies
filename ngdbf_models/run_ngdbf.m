@@ -1,5 +1,9 @@
 % Wrapper for NGDBF Prism Models
-function [p,y] = run_ngdbf(adj_mat)
+function [p,y] = run_ngdbf(adj_mat,explicit_model)
+    arguments
+        adj_mat (:,:) {mustBeNumeric}
+        explicit_model logical
+    end
     clc;
     if ispc()
          system('rd models/');
@@ -164,20 +168,34 @@ function [p,y] = run_ngdbf(adj_mat)
         %%%%%%%%%%%%%%%%%%%%%% Write File %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % Select NGDBF Model
 
-        
-         model_path =strjoin( ['models/ngdbf_trapping_',string(sym_size),'symbol_',bin_pos,'.prism'],'');
-        % model_path = strjoin(model_path)
-         [stat, istate] = write_model(model_path,y,p);
-
-        % Simulate Model and Capture Output
-         [status,output] = system("prism "+ model_path +" "+tag);
-          if status == 1 || stat == 1
-             fprintf("%s\n",output);
-             return;
-         else
-            % TODO: Process output
-            fprintf(file_out,"%s\ninitial state: %d\n----------------------------------------------------------------------------------------------------\n\n",output,istate);
-          end
+        if ~explicit_model
+            % Regular Model
+            model_path =strjoin( ['models/ngdbf_trapping_',string(sym_size),'symbol_',bin_pos,'.prism'],'');
+            % model_path = strjoin(model_path)
+            [stat, istate] = write_model(model_path,y,p);
+    
+            % Simulate Model and Capture Output
+            [status,output] = system(["prism ", model_path ," ",tag]);
+            if status == 1 || stat == 1
+               fprintf("%s\n",output);
+               return;
+            else
+              % TODO: Process output
+              fprintf(file_out,"%s\ninitial state: %d\n----------------------------------------------------------------------------------------------------\n\n",output,istate);
+            end
+        else
+            % Explicit Model
+            istate = idx-1;
+            model_path = write_explicit_model(p,istate);
+            [status,output] = system(strjoin(["prism -importmodel ",model_path,".all ",tag, " -dtmc"],""));
+            if status == 1
+                fprintf("%s\n",output);
+                 return;
+             else
+                % TODO: Process output
+                fprintf(file_out,"%s\ninitial state: %d\n----------------------------------------------------------------------------------------------------\n\n",output,istate);
+            end
+        end
           %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     end
     fclose(file_out);

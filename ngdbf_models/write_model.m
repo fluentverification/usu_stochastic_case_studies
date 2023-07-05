@@ -2,13 +2,14 @@ function [status,state] = write_model(fileName,y,p)
     y_size = length(y);
     x = zeros(1,y_size);
     state = 1;
-    for idx = 1:y_size
+    for idx = y_size:-1:1
         if y(idx) > 0
             x(idx) = 0;
         else
             x(idx) = 1;
         end
-        state = state+(x(idx)*2^(idx-1));
+        pos = y_size-idx;
+        state = state+(x(idx)*2^pos);
     end
     % DEBUG 
     
@@ -34,7 +35,7 @@ function [status,state] = write_model(fileName,y,p)
         if i ~= 1
             fprintf(fid,"\t[] state=%d -> ",(i-1));
             for j=1:2^y_size
-                fprintf(fid,"%.16f:(state'=%d)",p(i,j),(j-1));
+                fprintf(fid,"%e:(state'=%d)",p(i,j),(j-1));
                 if j ~= 2^y_size
                     fprintf(fid,"+");
                 end
