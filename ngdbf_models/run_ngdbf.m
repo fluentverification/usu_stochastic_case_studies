@@ -1,5 +1,5 @@
 % Wrapper for NGDBF Prism Models
-function [p,y] = run_ngdbf(adj_mat,explicit_model)
+function [p,y] = run_ngdbf(adj_mat,explicit_model,finish_condition)
     if isOctave()
         pkg load statistics;
     end
@@ -19,13 +19,20 @@ function [p,y] = run_ngdbf(adj_mat,explicit_model)
         else
             explicit_model = false;
         end
-    elseif nargin > 1 && ~islogical(explicit_model)
+    elseif nargin > 1 && ~islogical(explicit_model) 
         fprintf("\nERROR: explicit_model must be logical\n");
         fprintf("Usage: run_ngdbf(adj_mat,explicit_model) \nadj_mat: Adjacency Matrix of trapping set to analyze.");
         fprintf(" You may load trapping sets with load_trapping_sets.m\nexplicit_model: Optional, "); 
         fprintf("if true then explicit model files are generated. False by default.\n\n");
         return;
+    elseif nargin >2 && ~islogical(finish_condition)
+        fprintf("\nERROR: finish must be logical\n");
+        fprintf("Usage: run_ngdbf(adj_mat,explicit_model) \nadj_mat: Adjacency Matrix of trapping set to analyze.");
+        fprintf(" You may load trapping sets with load_trapping_sets.m\nexplicit_model: Optional, "); 
+        fprintf("if true then explicit model files are generated. False by default.\n\n");
+        return;
     end
+
 
     clc;
     % Create models folder
@@ -190,7 +197,7 @@ function [p,y] = run_ngdbf(adj_mat,explicit_model)
         if ~explicit_model
             % Regular Model
             model_path =strcat(' models/ngdbf_trapping_',num2str(sym_size),'symbol_',bin_pos,'.prism');
-            [stat, istate] = write_model(substr(model_path,2),y,p);
+            [stat, istate] = write_model(substr(model_path,2),y,p,finish_condition);
     
             % Simulate Model and Capture Output
             [status,output] = system(strcat("prism ", model_path ,tag));
@@ -204,7 +211,7 @@ function [p,y] = run_ngdbf(adj_mat,explicit_model)
         else
             % Explicit Model
             istate = idx-1;
-            model_path = write_explicit_model(p,istate);
+            model_path = write_explicit_model(p,istate,finish_condition);
             [status,output] = system(strcat("prism -importmodel ",model_path,".all ",tag, " -dtmc"));
             if status == 1
                 fprintf("%s\n",output);

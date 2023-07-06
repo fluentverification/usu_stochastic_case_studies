@@ -1,4 +1,4 @@
-function name = write_explicit_model(trans_mat,init_state)
+function name = write_explicit_model(trans_mat,init_state,finish_condition)
     % Set up folder variables
     [length,~] = size(trans_mat);
     binary_size = floor(log2(length));
@@ -56,7 +56,13 @@ function name = write_explicit_model(trans_mat,init_state)
     fprintf(fid_trans, "%d %d\n",length,length*length);
     for x = 1:length
         for y = 1:length
-            fprintf(fid_trans,"%d %d %e\n",x-1,y-1,trans_mat(x,y));
+            if finish_condition && x ==1 && y==1
+                fprintf(fid_trans,"0 0 1\n");
+            else
+                fprintf(fid_trans,"%d %d %e\n",x-1,y-1,trans_mat(x,y));
+        
+            end
+    
         end
     end
     fclose(fid_trans);
