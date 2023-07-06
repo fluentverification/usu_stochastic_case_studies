@@ -53,14 +53,21 @@ function name = write_explicit_model(trans_mat,init_state,finish_condition)
     fclose(fid_label);
 
     % Write trans file
-    fprintf(fid_trans, "%d %d\n",length,length*length);
+    if finish_condition
+        num_edges = (length*length)-length+1;
+    else
+        num_edges = length*length;
+    end
+    fprintf(fid_trans, "%d %d\n",length,num_edges);
     for x = 1:length
         for y = 1:length
             if finish_condition && x ==1 && y==1
                 fprintf(fid_trans,"0 0 1\n");
+            elseif finish_condition && x==1 && y~=1
+                % Do Nothing
+                %fprintf(fid_trans,"%d %d %e\n",x-1,y-1,trans_mat(x,y));
             else
                 fprintf(fid_trans,"%d %d %e\n",x-1,y-1,trans_mat(x,y));
-        
             end
     
         end
