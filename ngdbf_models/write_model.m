@@ -15,6 +15,9 @@ function [status,state] = write_model(fileName,y,p)
     
     %%%%%%%%
     fid = fopen(fileName,'w');
+    if fid == -1
+        error("File: %s not found",fileName);
+    end
     fprintf(fid,"dtmc\n\n");
     % Print labels
     for i = 1:2^y_size

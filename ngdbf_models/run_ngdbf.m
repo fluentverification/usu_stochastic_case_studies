@@ -1,12 +1,35 @@
 % Wrapper for NGDBF Prism Models
 function [p,y] = run_ngdbf(adj_mat,explicit_model)
-    arguments
-        adj_mat (:,:) {mustBeNumeric}
-        explicit_model logical
+    if isOctave()
+        pkg load statistics;
     end
+    if nargin < 1
+        fprintf("\nERROR: Not enough arguments\n");
+        fprintf("Usage: run_ngdbf(adj_mat,explicit_model) \nadj_mat: Adjacency Matrix of trapping set to analyze.");
+        fprintf(" You may load trapping sets with load_trapping_sets.m\nexplicit_model: Optional, "); 
+        fprintf("if true then explicit model files are generated. False by default.\n\n");
+        return;
+    elseif nargin == 1
+        if isscalar(adj_mat)
+            fprintf("\nERROR: adj_mat must be an adjacency matrix\n");
+            fprintf("Usage: run_ngdbf(adj_mat,explicit_model) \nadj_mat: Adjacency Matrix of trapping set to analyze.");
+            fprintf(" You may load trapping sets with load_trapping_sets.m\nexplicit_model: Optional, "); 
+            fprintf("if true then explicit model files are generated. False by default.\n\n");
+            return;
+        else
+            explicit_model = false;
+        end
+    elseif nargin > 1 && ~islogical(explicit_model)
+        fprintf("\nERROR: explicit_model must be logical\n");
+        fprintf("Usage: run_ngdbf(adj_mat,explicit_model) \nadj_mat: Adjacency Matrix of trapping set to analyze.");
+        fprintf(" You may load trapping sets with load_trapping_sets.m\nexplicit_model: Optional, "); 
+        fprintf("if true then explicit model files are generated. False by default.\n\n");
+        return;
+    end
+
     clc;
     % Create models folder
-    system("mkdir models > nul");
+    mkdir("models");
     % Ask for inputs
     fprintf("Default Values\n");
     fprintf("Code Rate = 0.8413\n");
@@ -29,7 +52,7 @@ function [p,y] = run_ngdbf(adj_mat,explicit_model)
         SNR = input("Enter a new SNR: ");
         theta = input("Enter a new threshold: ");
         w = input("Enter a new weight: ");
-        tag = input("Enter a new simulation tag or property (ie -tr 500, -ss, -prop <property>, etc...): ",'s');
+        tag = input("Enter a new simulation tag or property (ie -tr 500, -ss, -prop <property>, etc...) Must have a leading space: ",'s');
     end
   
     if isempty(code_rate)
@@ -45,12 +68,13 @@ function [p,y] = run_ngdbf(adj_mat,explicit_model)
         w = 1/6;
     end
     if isempty(tag)
-        tag = "-tr 600";
+        tag = " -tr 600";
     end
     
     file_out = fopen("output.txt","w"); % Open output file
-    sym_size = width(adj_mat); % Number of variable nodes
-    check_size = length(adj_mat); % Number of check nodes
+    %sym_size = width(adj_mat); % Number of variable nodes
+    %check_size = length(adj_mat); % Number of check nodes
+    [check_size,sym_size] = size(adj_mat); %Number of variable and check nodes
     error_total = 2^sym_size; % Number of possible errors
     sigma = sqrt(1/code_rate)*10^(-SNR/20);
 
@@ -98,7 +122,7 @@ function [p,y] = run_ngdbf(adj_mat,explicit_model)
         % convert to bipolar states
         for row = 1:2^sym_size
             for col = 1:sym_size
-                  x(row,col) = str2num(x_str(row,col));
+                  x(row,col) = str2double(x_str(row,col));
                 if x(row,col) == 1
                     x(row,col) = -1;
                 else
@@ -165,12 +189,11 @@ function [p,y] = run_ngdbf(adj_mat,explicit_model)
 
         if ~explicit_model
             % Regular Model
-            model_path =strjoin( ['models/ngdbf_trapping_',string(sym_size),'symbol_',bin_pos,'.prism'],'');
-            % model_path = strjoin(model_path)
-            [stat, istate] = write_model(model_path,y,p);
+            model_path =strcat(' models/ngdbf_trapping_',num2str(sym_size),'symbol_',bin_pos,'.prism');
+            [stat, istate] = write_model(substr(model_path,2),y,p);
     
             % Simulate Model and Capture Output
-            [status,output] = system(["prism ", model_path ," ",tag]);
+            [status,output] = system(strcat("prism ", model_path ,tag));
             if status == 1 || stat == 1
                fprintf("%s\n",output);
                return;
@@ -182,7 +205,7 @@ function [p,y] = run_ngdbf(adj_mat,explicit_model)
             % Explicit Model
             istate = idx-1;
             model_path = write_explicit_model(p,istate);
-            [status,output] = system(strjoin(["prism -importmodel ",model_path,".all ",tag, " -dtmc"],""));
+            [status,output] = system(strcat("prism -importmodel ",model_path,".all ",tag, " -dtmc"));
             if status == 1
                 fprintf("%s\n",output);
                  return;
