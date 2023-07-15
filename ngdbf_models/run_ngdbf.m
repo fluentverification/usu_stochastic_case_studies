@@ -206,26 +206,23 @@ function [p,y] = run_ngdbf(adj_mat,explicit_model,finish_condition)
     
             % Simulate Model and Capture Output
             [status,output] = system(strcat("prism ", model_path ,tag));
-            if status == 1 || stat == 1
-               fprintf("%s\n",output);
-               return;
-            else
-              % TODO: Process output
-              fprintf(file_out,"%s\ninitial state: %d\n----------------------------------------------------------------------------------------------------\n\n",output,istate);
-            end
         else
             % Explicit Model
             istate = idx-1;
             model_path = write_explicit_model(p,istate,finish_condition);
             [status,output] = system(strcat("prism -importmodel ",model_path,".all ",tag, " -dtmc"));
-            if status == 1
-                fprintf("%s\n",output);
-                 return;
-             else
-                % TODO: Process output
-                fprintf(file_out,"%s\ninitial state: %d\n----------------------------------------------------------------------------------------------------\n\n",output,istate);
-            end
+            
         end
+        if status == 1 || stat == 1
+            fprintf("%s\n",output);
+            return;
+        else
+           if (tag(3) == 't' && tag(4) == 'r') || (tag(3) == 's' && tag(4) == 's')
+                str_idx = strfind(output,"0:(0)");
+                output = substr(output,str_idx);
+           end
+           fprintf(file_out,"%s\ninitial state: %d\n----------------------------------------------------------------------------------------------------\n\n",output,istate);
+         end
           %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     end
     fclose(file_out);
