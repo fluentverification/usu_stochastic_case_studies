@@ -5,7 +5,6 @@ function name = write_explicit_model(trans_mat,init_state,finish_condition)
     init_state_str = dec2bin(init_state,binary_size);
     base_folder_name = "explicit_model_";
     folder_name = strcat("models/",base_folder_name,init_state_str);
-    %command = strjoin(["mkdir",folder_name]," ");
     % create folder
     [~,~] = mkdir(folder_name);
 
@@ -15,6 +14,7 @@ function name = write_explicit_model(trans_mat,init_state,finish_condition)
     label_name = strcat(base_file_name,".lab");
     trans_name = strcat(base_file_name,".tra");
     % Return name with a leading space
+    % strcat strips tailing whitespace but not leading whitespace
     name_temp = strcat("|",base_file_name);
     name_temp(1) = " ";
     name = name_temp;

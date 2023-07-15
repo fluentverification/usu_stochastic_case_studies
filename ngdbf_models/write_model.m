@@ -18,14 +18,14 @@ function [status,state] = write_model(fileName,y,p,finish_condition)
     end
     fprintf(fid,"dtmc\n\n");
     % Print labels
-    % for i = 1:2^y_size
-    %     label = i-1;
-    %     if i==1
-    %         fprintf(fid,'label "finish"= (state=%d);\n ',label);
-    %     else
-    %         fprintf(fid,'label "state_%d"= (state=%d);\n ',label,label);
-    %     end
-    % end
+    for i = 1:2^y_size
+        label = i-1;
+        if i==1
+            fprintf(fid,'label "finish"= (state=%d);\n ',label);
+        else
+            fprintf(fid,'label "state_%d"= (state=%d);\n ',label,label);
+        end
+    end
 
     % Write Module
     fprintf(fid,"module trapping_set \n");
