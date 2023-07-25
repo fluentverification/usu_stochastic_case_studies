@@ -8,7 +8,7 @@
 % c_3
 %  |
 % c_n
-fprintf("\n\nTo use trapping sets call <strong>run_ngdbf(trapping_set,explicit_model)</strong> where trapping_set \nis one the loaded sets and explicit_model is a boolean\nthat is true if you would like to generate an explicit model \n(see PRISM manual for more info on explicit models\nhttps://www.prismmodelchecker.org/manual/Appendices/ExplicitModelFiles)\nor false if you would like to generate a normal .prism model. \n\n\n");
+fprintf("\n\nTo use trapping sets call <strong>run_ngdbf(trapping_set,explicit_model,finish_condition)</strong> where trapping_set \nis one the loaded sets, explicit_model is a boolean\nthat is true if you would like to generate an explicit model \n(see PRISM manual for more info on explicit models\nhttps://www.prismmodelchecker.org/manual/Appendices/ExplicitModelFiles)\nor false if you would like to generate a normal .prism model. \nfinish_condition is a boolean that indicates you want the simulation to end if the all-zero state is reached.\n\n\n");
 
 three_three = [
 1 0 0 
