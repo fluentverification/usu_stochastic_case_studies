@@ -1,5 +1,5 @@
 % Wrapper for NGDBF Prism Models
-function [p,y] = run_ngdbf(adj_mat,explicit_model,finish_condition)
+function p_out = run_ngdbf(adj_mat,explicit_model,finish_condition)
     if isOctave()
         pkg load statistics;
     end
@@ -89,7 +89,7 @@ function [p,y] = run_ngdbf(adj_mat,explicit_model,finish_condition)
     [check_size,sym_size] = size(adj_mat); %Number of variable and check nodes
     error_total = 2^sym_size; % Number of possible errors
     sigma = sqrt(1/code_rate)*10^(-SNR/20);
-
+    p_out = zeros(2^sym_size,2^sym_size); % initialize results 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%% Generate sample values %%%%%%%%%%%%%%%%%%%%
     loop_check = get_error_sample_size(sym_size);
     valid_samples = zeros(1,loop_check);
@@ -197,8 +197,6 @@ function [p,y] = run_ngdbf(adj_mat,explicit_model,finish_condition)
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
         %%%%%%%%%%%%%%%%%%%%%% Write File %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        % Select NGDBF Model
-
         if ~explicit_model
             % Regular Model
             model_path =strcat(' models/ngdbf_trapping_',num2str(sym_size),'symbol_',bin_pos,'.prism');
@@ -217,17 +215,34 @@ function [p,y] = run_ngdbf(adj_mat,explicit_model,finish_condition)
             fprintf("%s\n",output);
             return;
         else
+            save_output = 0; % temporary until all ouput is processed
             if (tag(3) == 't' && tag(4) == 'r') || (tag(3) == 's' && tag(4) == 's')
                 str_idx = strfind(output,"0:(0)");
                 output = substr(output,str_idx);
+                save_output = 1;
             else
                 str_idx = strfind(output,"Result");
                 output = substr(output,str_idx);
             end
-
+            % Save result probabilities if transient or steady state analysis
+            if save_output == 1
+                split_output = strsplit(output,"\n"); 
+                for out_idx = 1:2^sym_size
+                    str_to_parse = char(split_output(out_idx));
+                    
+                    if (str_to_parse(1) >= "0") && (str_to_parse(1) <= "9")
+                        p_temp = textscan(str_to_parse,"%d:(%d)=%f");
+                        p_out(idx,out_idx) = p_temp{1,3};
+                    else
+                        break; 
+                    end
+                end
+            end
            fprintf(file_out,"initial state: %d\n%s\n----------------------------------------------------------------------------------------------------\n\n",istate,output);
          end
           %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     end
+    fprintf("\n\nThe matrix outputted contains the probabilities that the models ends in a certain state for each error configuration.\n ");
+    fprintf("For example, to find the probability that the model ends in the all-zero state with error configuration 7 you would look at p_out(8,1)\n\n");
     fclose(file_out);
 end
