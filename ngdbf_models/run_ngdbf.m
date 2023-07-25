@@ -213,14 +213,18 @@ function [p,y] = run_ngdbf(adj_mat,explicit_model,finish_condition)
             [status,output] = system(strcat("prism -importmodel ",model_path,".all ",tag, " -dtmc"));
             
         end
-        if status == 1 || stat == 1
+        if status == 1 
             fprintf("%s\n",output);
             return;
         else
-           if (tag(3) == 't' && tag(4) == 'r') || (tag(3) == 's' && tag(4) == 's')
+            if (tag(3) == 't' && tag(4) == 'r') || (tag(3) == 's' && tag(4) == 's')
                 str_idx = strfind(output,"0:(0)");
                 output = substr(output,str_idx);
-           end
+            else
+                str_idx = strfind(output,"Result");
+                output = substr(output,str_idx);
+            end
+
            fprintf(file_out,"%s\ninitial state: %d\n----------------------------------------------------------------------------------------------------\n\n",output,istate);
          end
           %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
