@@ -225,7 +225,7 @@ function [p,y] = run_ngdbf(adj_mat,explicit_model,finish_condition)
                 output = substr(output,str_idx);
             end
 
-           fprintf(file_out,"%s\ninitial state: %d\n----------------------------------------------------------------------------------------------------\n\n",output,istate);
+           fprintf(file_out,"initial state: %d\n%s\n----------------------------------------------------------------------------------------------------\n\n",istate,output);
          end
           %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     end
