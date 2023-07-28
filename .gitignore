@@ -3,3 +3,4 @@
 *.asv
 ngdbf_models/models/*
 ngdbf_models/output.txt
+ngdbf_models/octave-workspace
