@@ -36,13 +36,15 @@ function [status,state] = write_model(fileName,y,p,finish_condition)
             fprintf(fid,"\t[] state=%d -> ",(i-1));
             for j=1:2^y_size
                 temp_p = p(i,j);
-                if temp_p < 1e-300
-                    temp_p = 0;
+                if temp_p >= 1e-300 % STORM cannot analyze numbers smaller than this
+                % Make model write faster by not printing 0 probability transitions
+                    if j ~= 1 
+                        fprintf(fid,"+");
+                    end
+                    fprintf(fid,"%e:(state'=%d)",temp_p,(j-1));
+                    
                 end
-                fprintf(fid,"%e:(state'=%d)",temp_p,(j-1));
-                if j ~= 2^y_size
-                    fprintf(fid,"+");
-                end
+                
             end
         else
             %fprintf(fid,"\t[finish] state=%d -> 1: (halt' = true) ",i);

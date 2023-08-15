@@ -4,9 +4,11 @@ function [p,status] = calculate_probabilities(energies,theta,sigma,sym_size)
     % dissertation (pg. 26)
     for row = 1:2^sym_size
         px = zeros(1,sym_size);
+        % Calculate individual bit flipping probabilities
         for p_idx = 1:sym_size
             px(p_idx) = normcdf(theta,energies(row,p_idx),sigma);
         end
+        
         rowbin = dec2bin(row-1,sym_size);
         for col = 1:2^sym_size
             colbin = dec2bin(col-1,sym_size);
