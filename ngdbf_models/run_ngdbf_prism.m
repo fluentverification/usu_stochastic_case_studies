@@ -1,6 +1,6 @@
 % Wrapper for NGDBF Prism Models
-function p_out = run_ngdbf(adj_mat,explicit_model,finish_condition)
-    fid_test = fopen("idx_debug.txt","w");
+function p_out = run_ngdbf_prism(adj_mat,explicit_model,finish_condition)
+    %fid_test = fopen("idx_debug.txt","w");
     if isOctave()
         pkg load statistics;
     end
@@ -233,5 +233,5 @@ function p_out = run_ngdbf(adj_mat,explicit_model,finish_condition)
     fprintf("\n\nThe matrix outputted contains the probabilities that the models ends in a certain state for each error configuration.\n ");
     fprintf("For example, to find the probability that the model ends in the all-zero state with error configuration 7 you would look at p_out(8,1)\n\n");
     fclose(file_out);
-    fclose(fid_test);
+    %fclose(fid_test);
 end
