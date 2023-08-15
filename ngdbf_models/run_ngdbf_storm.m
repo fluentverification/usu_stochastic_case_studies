@@ -112,74 +112,10 @@ function p_out = run_ngdbf_storm(adj_mat,explicit_model,finish_condition)
         end
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     
-        %%%%%%%%%%%%%%%%%%%%% Create state matrix %%%%%%%%%%%%%%%%%%%%%%%%%
-        % States taken from Tasnuva dissertation (Table 3.1, pg 27)
-        x_str = [dec2bin(0:(2^sym_size)-1,sym_size)];
-        x = zeros(2^sym_size,sym_size);
-        % convert to bipolar states
-        for row = 1:2^sym_size
-            for col = 1:sym_size
-                  x(row,col) = str2double(x_str(row,col));
-                if x(row,col) == 1
-                    x(row,col) = -1;
-                else
-                    x(row,col) = 1;
-                end
-            end
-        end
-        %x = int(x);
-        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-        %%%%%%%%%%% Calculate Energies and Check nodes %%%%%%%%%%%%%%%%%%%% 
-        %initialize Energy and check node matrices
-        E = zeros(2^sym_size,sym_size);
-        chk_nodes = ones(1, check_size);
-        chk_sum = zeros(1,sym_size);
-        % Calculate all possible energy values for each state
-        for row = 1:2^sym_size
-            % Calculate all check nodes
-            for adj_row = 1:check_size
-                for adj_col = 1:sym_size
-                    if adj_mat(adj_row,adj_col) == 1
-                       chk_nodes(adj_row) = chk_nodes(adj_row)*x(row,adj_col);
-                       chk_sum(adj_col) = chk_sum(adj_col)+chk_nodes(adj_row);
-                    end
-                end
-            end
-            % Calculate energy values
-            for E_idx = 1:sym_size
-                E(row,E_idx) = y(E_idx)*x(row,E_idx)+w*chk_sum(E_idx);
-            end
-        end
-        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-        %%%%%%%%%%%%%%%% Calculate transition probabilities %%%%%%%%%%%%%%%
-        p = ones(2^sym_size,2^sym_size);
-        % Flip probabilities calculated according to Eq 3.13 in T. Tithi
-        % dissertation (pg. 26)
-        for row = 1:2^sym_size
-            px = zeros(1,sym_size);
-            for p_idx = 1:sym_size
-                px(p_idx) = normcdf(theta,E(row,p_idx),sigma);
-            end
-            rowbin = dec2bin(row-1,sym_size);
-            for col = 1:2^sym_size
-                colbin = dec2bin(col-1,sym_size);
-                for p_idx = 1:sym_size
-                    if rowbin(p_idx) == colbin(p_idx)
-                        p(row,col) = p(row,col)*(1-px(p_idx));
-                    else
-                        p(row,col) = p(row,col)*px(p_idx);
-                    end
-                end
-            end
-        end
-        % Sanity check
-        if sum(round(sum(p.'))) ~= 2^sym_size
-            fprintf("Error: Probabilities do not sum to 1\n");
-            return;
-        end
-        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        % Calculate Energies
+        E = calculate_energies(adj_mat,y,w,sym_size,check_size);
+        % Calculate Probabilities
+        p = calculate_probabilities(E,theta,sigma,sym_size);
 
         %%%%%%%%%%%%%%%%%%%%%% Write File %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         if ~explicit_model
