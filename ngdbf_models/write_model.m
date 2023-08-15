@@ -35,7 +35,11 @@ function [status,state] = write_model(fileName,y,p,finish_condition)
         if i ~= 1
             fprintf(fid,"\t[] state=%d -> ",(i-1));
             for j=1:2^y_size
-                fprintf(fid,"%e:(state'=%d)",p(i,j),(j-1));
+                temp_p = p(i,j);
+                if temp_p < 1e-300
+                    temp_p = 0;
+                end
+                fprintf(fid,"%e:(state'=%d)",temp_p,(j-1));
                 if j ~= 2^y_size
                     fprintf(fid,"+");
                 end
@@ -47,7 +51,11 @@ function [status,state] = write_model(fileName,y,p,finish_condition)
             else
                 fprintf(fid,"\t[] state=%d -> ",(i-1));
                 for j=1:2^y_size
-                    fprintf(fid,"%e:(state'=%d)",p(i,j),(j-1));
+                    temp_p = p(i,j);
+                    if temp_p < 1e-300
+                        temp_p = 0;
+                    end
+                    fprintf(fid,"%e:(state'=%d)",temp_p,(j-1));
                     if j ~= 2^y_size
                         fprintf(fid,"+");
                     end

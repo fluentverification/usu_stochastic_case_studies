@@ -5,37 +5,21 @@ function p_out = run_ngdbf(adj_mat,explicit_model,finish_condition)
         pkg load statistics;
     end
     if nargin < 1
-        fprintf("\nERROR: Not enough arguments\n");
-        fprintf("Usage: run_ngdbf(adj_mat,explicit_model,finish_condition) \nadj_mat: Adjacency Matrix of trapping set to analyze.");
-        fprintf(" You may load trapping sets with load_trapping_sets.m\nexplicit_model: Optional, "); 
-        fprintf("if true then explicit model files are generated. False by default.\n");
-        fprintf("finish_condition: If true, the simulation will stop in all-zero state. True by default.\n\n");
+        print_help();
         return;
     elseif nargin == 1
         if isscalar(adj_mat)
-            fprintf("\nERROR: adj_mat must be an adjacency matrix\n");
-            fprintf("Usage: run_ngdbf(adj_mat,explicit_model,finish_condition) \nadj_mat: Adjacency Matrix of trapping set to analyze.");
-            fprintf(" You may load trapping sets with load_trapping_sets.m\nexplicit_model: Optional, "); 
-            fprintf("if true then explicit model files are generated. False by default.\n");
-            fprintf("finish_condition: If true, the simulation will stop in all-zero state. True by default.\n\n");
+            print_help();
             return;
         else
             explicit_model = false;
             finish_condition = true;
         end
     elseif nargin > 1 && ~islogical(explicit_model) 
-        fprintf("\nERROR: explicit_model must be logical\n");
-        fprintf("Usage: run_ngdbf(adj_mat,explicit_model,finish_condition) \nadj_mat: Adjacency Matrix of trapping set to analyze.");
-        fprintf(" You may load trapping sets with load_trapping_sets.m\nexplicit_model: Optional, "); 
-        fprintf("if true then explicit model files are generated. False by default.\n");
-        fprintf("finish_condition: If true, the simulation will stop in all-zero state. True by default.\n\n");
+        print_help();
         return;
     elseif nargin >2 && ~islogical(finish_condition)
-        fprintf("\nERROR: finish must be logical\n");
-        fprintf("Usage: run_ngdbf(adj_mat,explicit_model,finish_condition) \nadj_mat: Adjacency Matrix of trapping set to analyze.");
-        fprintf(" You may load trapping sets with load_trapping_sets.m\nexplicit_model: Optional, "); 
-        fprintf("if true then explicit model files are generated. False by default.\n");
-        fprintf("finish_condition: If true, the simulation will stop in all-zero state. True by default.\n\n");
+        print_help();
         return;
     end
 
@@ -118,7 +102,7 @@ function p_out = run_ngdbf(adj_mat,explicit_model,finish_condition)
         for n = 1:sym_size
             if bin_pos(n) == '1'
                 error_idx = error_idx-1;
-                % TODO: Research Gaussian tail distributioins to effectively generate error samples
+                % TODO: Research Gaussian tail distributions to effectively generate error samples
                 % Temporary solution applied
                 y(n) = error_samples(error_idx); 
             else
@@ -171,7 +155,7 @@ function p_out = run_ngdbf(adj_mat,explicit_model,finish_condition)
 
         %%%%%%%%%%%%%%%% Calculate transition probabilities %%%%%%%%%%%%%%%
         p = ones(2^sym_size,2^sym_size);
-        % Flip probabilities calculated according to Eq 3.13 in Tasnuva
+        % Flip probabilities calculated according to Eq 3.13 in T. Tithi
         % dissertation (pg. 26)
         for row = 1:2^sym_size
             px = zeros(1,sym_size);
@@ -190,7 +174,7 @@ function p_out = run_ngdbf(adj_mat,explicit_model,finish_condition)
                 end
             end
         end
-        
+        % Sanity check
         if sum(round(sum(p.'))) ~= 2^sym_size
             fprintf("Error: Probabilities do not sum to 1\n");
             return;
