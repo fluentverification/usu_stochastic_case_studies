@@ -1,6 +1,7 @@
 % Wrapper for NGDBF Prism Models
 function p_out = run_ngdbf_storm(adj_mat,explicit_model,finish_condition)
     %fid_test = fopen("idx_debug.txt","w");
+    script_begin = time();
     if isOctave()
         pkg load statistics;
     end
@@ -67,37 +68,19 @@ function p_out = run_ngdbf_storm(adj_mat,explicit_model,finish_condition)
     end
     
     file_out = fopen("output.txt","w"); % Open output file
-    %sym_size = width(adj_mat); % Number of variable nodes
-    %check_size = length(adj_mat); % Number of check nodes
     [check_size,sym_size] = size(adj_mat); %Number of variable and check nodes
     error_total = 2^sym_size; % Number of possible errors
     sigma = sqrt(1/code_rate)*10^(-SNR/20);
     p_out = zeros(2^sym_size,2^sym_size); % initialize results 
 
     time_sample_begin = time();
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%% Generate sample values %%%%%%%%%%%%%%%%%%%%
-    loop_check = get_error_sample_size(sym_size);
-    valid_samples = zeros(1,loop_check);
-    valid_idx = 1;
-    error_samples = zeros(1,loop_check);
-    error_idx = 1;
-    while valid_idx <= loop_check || error_idx <= loop_check
-        temp = normrnd(1,sigma);
-        if temp > 0
-            valid_samples(valid_idx) = temp;
-            valid_idx = valid_idx +1;
-        end
-        if temp < 0
-            error_samples(error_idx) = temp;
-            error_idx = error_idx+1;
-        end
-    end
-    %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    [valid_samples,error_samples,valid_idx,error_idx] = generate_samples(sym_size,sigma);
     time_sample_end = time();
     fprintf("sample generation took %d seconds\n",time_sample_end-time_sample_begin);
 
     % Run simulations
     for idx = 1:error_total
+        loop_begin = time();
         %%%%%%%%%%%%%%%%%%%%%%%% Choose error values %%%%%%%%%%%%%%%%%%%%%%
         bin_pos = dec2bin(idx-1,sym_size);
         y = zeros(1,sym_size); %initialize inputs
@@ -119,9 +102,13 @@ function p_out = run_ngdbf_storm(adj_mat,explicit_model,finish_condition)
         E = calculate_energies(adj_mat,y,w,sym_size,check_size);
         E_end = time();
         fprintf("Energy calculation took %d seconds\n",E_end-begin);
+        
         % Calculate Probabilities
         begin = time();
-        p = calculate_probabilities(E,theta,sigma,sym_size);
+        [p,status] = calculate_probabilities(E,theta,sigma,sym_size);
+        if status == -1
+            return
+        end
         p_end = time();
         fprintf("probability calculation took %d seconds\n",p_end-begin);
 
@@ -150,7 +137,6 @@ function p_out = run_ngdbf_storm(adj_mat,explicit_model,finish_condition)
             % Process Output for transient and steady state
             if (tag(3) == 't' && tag(4) == 'r') || (tag(3) == 's' && tag(4) == 's')
                 str_idx = regexp(output,regexptranslate('wildcard','0:\(*\)=*'));
-                %fprintf(fid_test,"str_idx: %d\n",str_idx);
                 output = substr(output,str_idx);
                 split_output = strsplit(output,"\n"); 
                 for out_idx = 1:2^sym_size
@@ -175,11 +161,13 @@ function p_out = run_ngdbf_storm(adj_mat,explicit_model,finish_condition)
            fprintf(file_out,"initial state: %d\n%s\n----------------------------------------------------------------------------------------------------\n\n",istate,output);
          end
          process_end = time();
-         fprintf("output processing took %d seconds\n\n\n",process_end-begin);
+         fprintf("output processing took %d seconds\n",process_end-begin);
+         fprintf("Loop took %d seconds\n\n\n",process_end-loop_begin);
           %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     end
     fprintf("\n\nThe matrix outputted contains the probabilities that the models ends in a certain state for each error configuration.\n ");
     fprintf("For example, to find the probability that the model ends in the all-zero state with error configuration 7 you would look at p_out(8,1)\n\n");
     fclose(file_out);
-    %fclose(fid_test);
-end
+    script_end = time();
+    fprintf("Total run-time is %d seconds\n",script_end-script_begin);
+endfunction

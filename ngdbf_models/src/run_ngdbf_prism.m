@@ -69,29 +69,28 @@ function p_out = run_ngdbf_prism(adj_mat,explicit_model,finish_condition)
     end
     
     file_out = fopen("output.txt","w"); % Open output file
-    %sym_size = width(adj_mat); % Number of variable nodes
-    %check_size = length(adj_mat); % Number of check nodes
     [check_size,sym_size] = size(adj_mat); %Number of variable and check nodes
     error_total = 2^sym_size; % Number of possible errors
     sigma = sqrt(1/code_rate)*10^(-SNR/20);
     p_out = zeros(2^sym_size,2^sym_size); % initialize results 
     %%%%%%%%%%%%%%%%%%%%%%%%%%%% Generate sample values %%%%%%%%%%%%%%%%%%%%
-    loop_check = get_error_sample_size(sym_size);
-    valid_samples = zeros(1,loop_check);
-    valid_idx = 1;
-    error_samples = zeros(1,loop_check);
-    error_idx = 1;
-    while valid_idx <= loop_check || error_idx <= loop_check
-        temp = normrnd(1,sigma);
-        if temp > 0
-            valid_samples(valid_idx) = temp;
-            valid_idx = valid_idx +1;
-        end
-        if temp < 0
-            error_samples(error_idx) = temp;
-            error_idx = error_idx+1;
-        end
-    end
+    [valid_samples,error_samples,valid_idx,error_idx] = generate_samples(sym_size,sigma);
+    % loop_check = get_error_sample_size(sym_size);
+    % valid_samples = zeros(1,loop_check);
+    % valid_idx = 1;
+    % error_samples = zeros(1,loop_check);
+    % error_idx = 1;
+    % while valid_idx <= loop_check || error_idx <= loop_check
+    %     temp = normrnd(1,sigma);
+    %     if temp > 0
+    %         valid_samples(valid_idx) = temp;
+    %         valid_idx = valid_idx +1;
+    %     end
+    %     if temp < 0
+    %         error_samples(error_idx) = temp;
+    %         error_idx = error_idx+1;
+    %     end
+    % end
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     % Run simulations
