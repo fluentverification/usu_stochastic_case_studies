@@ -36,5 +36,6 @@ function [p,status] = calculate_probabilities(energies,theta,sigma,sym_size)
         status = 0;
     end
     end_time = time();
-    fprintf("probability calculation took %d seconds\n",end_time-begin);
+    %fprintf("probability calculation took %d seconds\n",end_time-begin);
+
 endfunction

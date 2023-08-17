@@ -38,5 +38,5 @@ function E = calculate_energies(adj_mat,channel_samples,weight,sym_size,check_si
         end
     end
     E_end = time();
-    fprintf("Energy calculation took %d seconds\n",E_end-begin);
+    %fprintf("Energy calculation took %d seconds\n",E_end-begin);
 endfunction
