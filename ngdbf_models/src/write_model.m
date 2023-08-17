@@ -37,7 +37,7 @@ function [status,state] = write_model(fileName,y,p,finish_condition)
             first_element = true;
             for j=1:2^y_size
                 temp_p = p(i,j);
-                if temp_p > 0%1e-300 % STORM cannot analyze numbers smaller than this
+                if temp_p >= 1e-301 % STORM cannot analyze numbers smaller than this
                 % Make model write faster by not printing 0 probability transitions
                     if first_element == false 
                         fprintf(fid,"+");
