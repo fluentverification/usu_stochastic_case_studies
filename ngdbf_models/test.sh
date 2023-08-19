@@ -62,7 +62,7 @@ if ~exist('w')
     w = 1/6;
 end
 
-
+# Run simulations and take average
 prob_sum = zeros(2^bit_length,2^bit_length);
 for idx = 1:runs
     if strcmp(engine,'prism') == 1
@@ -74,6 +74,10 @@ for idx = 1:runs
         return;
     end
 end
+
 avg_prob = prob_sum/runs
 format long
 Perr = 1-avg_prob(:,1)
+if strcmp(engine,"storm") == 1
+    Perr = Perr(:,1);
+end
