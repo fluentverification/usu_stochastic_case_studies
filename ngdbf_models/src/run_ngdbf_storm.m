@@ -24,6 +24,8 @@ function p_out = run_ngdbf_storm(adj_mat,code_rate,SNR,theta,w,tag,explicit_mode
     explicit_model = false;
     finish_condition = true;
 
+    % toVerify = fopen("toVerify.txt","w");
+
     file_out = fopen("output_storm.txt","w"); % Open output file
     [check_size,sym_size] = size(adj_mat); %Number of variable and check nodes
     error_total = 2^sym_size; % Number of possible errors
@@ -52,25 +54,42 @@ function p_out = run_ngdbf_storm(adj_mat,code_rate,SNR,theta,w,tag,explicit_mode
                 y(n) = valid_samples(valid_idx);
             end
         end
+        % y = [-1.3, 0.2, -0.5];
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    
+        % fprintf(toVerify,"%f %f %f\n",y(1),y(2),y(3));    
         % Calculate Energies
+        % E_begin = time();
         E = calculate_energies(adj_mat,y,w,sym_size,check_size);
-        [i,j] = size(E);
-        fprintf(file_toVerify,"Energy Values\n");
-        
+        % E_end = time();
+        % fprintf("Energy calc took %d seconds\n",E_end-E_begin);
+
         % Calculate Probabilities
+        % p_begin = time();
         [p,status] = calculate_probabilities(E,theta,sigma,sym_size);
         if status == -1
             return
         end
+        % p_end = time();
+        % fprintf("Energy calc took %d seconds\n",p_end-p_begin);
+        % [l,k] = size(p);
+        % fprintf(toVerify,"\nProbability\n");
+        % for i = 1:l
+        %     for j = 1:k
+        %         fprintf(toVerify," %f ",p(i,j));
+        %     end
+        %     fprintf(toVerify,"\n");
+        % end
+        % fprintf(toVerify,"\n");
 
         %%%%%%%%%%%%%%%%%%%%%% Write File %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         begin = time();
         if ~explicit_model
             % Regular Model
+            write_begin = time();
             model_path =strcat(' models/ngdbf_trapping_',num2str(sym_size),'symbol_',bin_pos,'.prism');
             [stat, istate] = write_model(substr(model_path,2),y,p,finish_condition);
+            write_end = time();
+            fprintf("file writing took %d seconds\n",write_end-write_begin);
             % Simulate Model and Capture Output
             [status,output] = system(strcat("storm --prism ", model_path ," --prop ",tag));
         else
@@ -99,7 +118,7 @@ function p_out = run_ngdbf_storm(adj_mat,code_rate,SNR,theta,w,tag,explicit_mode
         end
         process_end = time();
         %fprintf("output processing took %d seconds\n",process_end-begin);
-        %fprintf("Loop took %d seconds\n\n\n",process_end-loop_begin);
+        fprintf("Loop took %d seconds\n\n\n",process_end-loop_begin);
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     end
@@ -107,5 +126,5 @@ function p_out = run_ngdbf_storm(adj_mat,code_rate,SNR,theta,w,tag,explicit_mode
     % fprintf("For example, to find the probability that the model ends in the all-zero state with error configuration 7 you would look at p_out(8,1)\n\n");
     fclose(file_out);
     script_end = time();
-    %fprintf("Total run-time is %d seconds\n",script_end-script_begin);
+    fprintf("Total run-time is %d seconds\n",script_end-script_begin);
 endfunction

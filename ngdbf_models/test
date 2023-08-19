@@ -75,5 +75,5 @@ for idx = 1:runs
     end
 end
 avg_prob = prob_sum/runs
-
-#run_ngdbf_storm(eight_eight);
+format long
+Perr = 1-avg_prob(:,1)

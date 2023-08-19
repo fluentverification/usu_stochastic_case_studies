@@ -15,12 +15,18 @@ function adj_mat = load_trapping_sets(name)
 %fprintf("(3,3) = three_three\n");
 
 three_three = [
-1 0 0 
-1 1 0
-0 1 0
 1 0 1
+1 1 0
 0 1 1
+1 0 0
+0 1 0
 0 0 1
+% 1 0 0 
+% 1 1 0
+% 0 1 0
+% 1 0 1
+% 0 1 1
+% 0 0 1
 ];
 
 %fprintf("(4,4) = four_four\n");
