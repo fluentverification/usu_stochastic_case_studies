@@ -4,6 +4,7 @@
 addpath("./src");
 pkg load statistics;
 clc;
+
 # get cmd line arguments
 arglist = argv ();
 for idx = 1:2:nargin
@@ -62,9 +63,9 @@ if ~exist('w')
     w = 1/6;
 end
 
-sigma = sqrt(1/code_rate)*10^(-SNR/20);
-[~,sym_size] = size(adj_mat);
 # Run simulations and take average
+sigma = sqrt(1/code_rate)*10^(-SNR/20); # Std. dev. 
+[~,sym_size] = size(adj_mat);
 prob_sum = zeros(2^bit_length,2^bit_length);
 for idx = 1:runs
     if strcmp(engine,'prism') == 1
@@ -76,13 +77,19 @@ for idx = 1:runs
         return;
     end
 end
-
-
-
-avg_prob = prob_sum/runs
+avg_prob = prob_sum/runs;
 format long
+avg_prob(:,1)
 Perr = 1-avg_prob(:,1)
-if strcmp(engine,"storm") == 1
-    Perr = Perr(:,1);
+
+# Calculate probability algorithm starts in given state
+sample_bits = zeros(2^sym_size,1);
+for idx = 1:2^sym_size
+    sample_bits(idx) = sum(bitget(idx-1,sym_size:-1:1));
 end
-sum(Perr)
+p_init_err = normcdf(0,1,sigma).^sample_bits;
+p_init_valid = (1-normcdf(0,1,sigma)).^(3-sample_bits);
+p_init = p_init_err .* p_init_valid
+
+# FER Calculation?
+FER = sum(Perr .* p_init)

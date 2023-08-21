@@ -1,30 +1,7 @@
 % Driver for NGDBF Prism Models
 function p_out = run_ngdbf_storm(adj_mat,sigma,theta,w,tag,explicit_model,finish_condition)
-    %fid_test = fopen("idx_debug.txt","w");
-    script_begin = time();
-    % if isOctave()
-    %     pkg load statistics;
-    % end
-    % if nargin < 1
-    %     print_help();
-    %     return;
-    % elseif nargin == 6
-    %     if isscalar(adj_mat)
-    %         print_help();
-    %         return;
-    %     else
-    %     end
-    % elseif nargin > 8 && ~islogical(explicit_model) 
-    %     fprintf("explicit_model is a logical input\n");
-    %     return;
-    % elseif nargin >9 && (~islogical(finish_condition) || ~islogical(explicit_model)) 
-    %     fprintf("explicit_model and finish_condition are logical inputs\n");
-    %     return;
-    % end
     explicit_model = false;
     finish_condition = true;
-
-    % toVerify = fopen("toVerify.txt","w");
 
     file_out = fopen("output_storm.txt","w"); % Open output file
     [check_size,sym_size] = size(adj_mat); %Number of variable and check nodes
@@ -32,10 +9,8 @@ function p_out = run_ngdbf_storm(adj_mat,sigma,theta,w,tag,explicit_model,finish
     
     p_out = zeros(2^sym_size,2^sym_size); % initialize results 
 
-    time_sample_begin = time();
+    % Generate Samples
     [valid_samples,error_samples,valid_idx,error_idx] = generate_samples(sym_size,sigma);
-    time_sample_end = time();
-    %fprintf("sample generation took %d seconds\n",time_sample_end-time_sample_begin);
 
     % Run simulations
     for idx = 1:error_total
@@ -56,40 +31,23 @@ function p_out = run_ngdbf_storm(adj_mat,sigma,theta,w,tag,explicit_model,finish
         end
         % y = [-1.3, 0.2, -0.5];
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        % fprintf(toVerify,"%f %f %f\n",y(1),y(2),y(3));    
+    
         % Calculate Energies
-        % E_begin = time();
-        E = calculate_energies(adj_mat,y,w,sym_size,check_size);
-        % E_end = time();
-        % fprintf("Energy calc took %d seconds\n",E_end-E_begin);
+        E = calc_energies(adj_mat,y,w,sym_size,check_size);
 
         % Calculate Probabilities
-        % p_begin = time();
-        [p,status] = calculate_transition_probabilities(E,theta,sigma,sym_size);
+        [p,status] = calc_prob(E,theta,sigma,sym_size);
         if status == -1
             return
         end
-        % p_end = time();
-        % fprintf("Energy calc took %d seconds\n",p_end-p_begin);
-        % [l,k] = size(p);
-        % fprintf(toVerify,"\nProbability\n");
-        % for i = 1:l
-        %     for j = 1:k
-        %         fprintf(toVerify," %f ",p(i,j));
-        %     end
-        %     fprintf(toVerify,"\n");
-        % end
-        % fprintf(toVerify,"\n");
 
         %%%%%%%%%%%%%%%%%%%%%% Write File %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         begin = time();
         if ~explicit_model
             % Regular Model
-            write_begin = time();
             model_path =strcat(' models/ngdbf_trapping_',num2str(sym_size),'symbol_',bin_pos,'.prism');
             [stat, istate] = write_model(substr(model_path,2),y,p,finish_condition);
-            write_end = time();
-            fprintf("file writing took %d seconds\n",write_end-write_begin);
+    
             % Simulate Model and Capture Output
             [status,output] = system(strcat("storm --prism ", model_path ," --prop ",tag));
         else
@@ -99,32 +57,18 @@ function p_out = run_ngdbf_storm(adj_mat,sigma,theta,w,tag,explicit_model,finish
             [status,output] = system(strcat("prism -importmodel ",model_path,".all ",tag, " -dtmc"));
             
         end
-        file_end = time();
-        %fprintf("File writing and simulation took %d seconds\n",file_end-begin);
-        begin = time();
+    
         if status == 1 
             fprintf("%s\n",output);
             return;
         else
-            %if tag(3) == 'P'
-                str_idx = strfind(output,"Result");
-                output = substr(output,str_idx);
-                p_temp = textscan(output,"Result (for initial states): %f");
-                p_out(idx,1) = p_temp{1,1};
-            %else
-                % Do nothing
-            %end
+            str_idx = strfind(output,"Result");
+            output = substr(output,str_idx);
+            p_temp = textscan(output,"Result (for initial states): %f");
+            p_out(idx,1) = p_temp{1,1};
             fprintf(file_out,"initial state: %d\n%s\n----------------------------------------------------------------------------------------------------\n\n",istate,output);
         end
-        process_end = time();
-        %fprintf("output processing took %d seconds\n",process_end-begin);
-        fprintf("Loop took %d seconds\n\n\n",process_end-loop_begin);
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
     end
-    % fprintf("\n\nThe matrix outputted contains the probabilities that the models ends in a certain state for each error configuration.\n ");
-    % fprintf("For example, to find the probability that the model ends in the all-zero state with error configuration 7 you would look at p_out(8,1)\n\n");
     fclose(file_out);
-    script_end = time();
-    fprintf("Total run-time is %d seconds\n",script_end-script_begin);
 endfunction

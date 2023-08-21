@@ -49,8 +49,8 @@ function p_out = run_ngdbf_prism(adj_mat,code_rate,SNR,theta,w,tag,explicit_mode
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
          
         % Calculate Energies and transition matrix
-        E = calculate_energies(adj_mat,y,w,sym_size,check_size);
-        [p,status] = calculate_transition_probabilities(E,theta,sigma,sym_size);
+        E = calc_energies(adj_mat,y,w,sym_size,check_size);
+        [p,status] = calc_prob(E,theta,sigma,sym_size);
         if status == -1
             return
         end

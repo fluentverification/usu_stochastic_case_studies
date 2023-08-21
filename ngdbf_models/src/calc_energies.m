@@ -1,4 +1,4 @@
-function E = calculate_energies(adj_mat,channel_samples,weight,sym_size,check_size)
+function E = calc_energies(adj_mat,channel_samples,weight,sym_size,check_size)
     % begin = time();
     %%%%%%%%%%%%%%%%%%%%% Create state matrix %%%%%%%%%%%%%%%%%%%%%%%%%
     % States taken from Tasnuva dissertation (Table 3.1, pg 27)
@@ -43,10 +43,11 @@ function E = calculate_energies(adj_mat,channel_samples,weight,sym_size,check_si
             end
         end
         % Calculate Energies
-        for E_idx = 1:sym_size
-            E(row,E_idx) = channel_samples(E_idx)*x(row,E_idx)+weight*chk_sum(row,E_idx);
-            % E(row,E_idx) = channel_samples(E_idx)*x(row,E_idx)+weight*chk_sum(E_idx);
-        end
+        E(row,:) = channel_samples.*x(row,:)+(weight.*chk_sum(row,:));
+        % for E_idx = 1:sym_size
+        %     E(row,E_idx) = channel_samples(E_idx)*x(row,E_idx)+weight*chk_sum(row,E_idx);
+        %     % E(row,E_idx) = channel_samples(E_idx)*x(row,E_idx)+weight*chk_sum(E_idx);
+        % end
     end
     % E_end = time();
     % fprintf("Energy calculation took %d seconds\n",E_end-begin);
