@@ -62,18 +62,22 @@ if ~exist('w')
     w = 1/6;
 end
 
+sigma = sqrt(1/code_rate)*10^(-SNR/20);
+[~,sym_size] = size(adj_mat);
 # Run simulations and take average
 prob_sum = zeros(2^bit_length,2^bit_length);
 for idx = 1:runs
     if strcmp(engine,'prism') == 1
-        prob_sum = prob_sum+run_ngdbf_prism(adj_mat,code_rate,SNR,threshold,w,prop);
+        prob_sum = prob_sum+run_ngdbf_prism(adj_mat,sigma,threshold,w,prop);
     elseif strcmp(engine,'storm') == 1
-        prob_sum = prob_sum+run_ngdbf_storm(adj_mat,code_rate,SNR,threshold,w,prop);
+        prob_sum = prob_sum+run_ngdbf_storm(adj_mat,sigma,threshold,w,prop);
     else
         fprintf("comparison not working\n");
         return;
     end
 end
+
+
 
 avg_prob = prob_sum/runs
 format long
@@ -81,3 +85,4 @@ Perr = 1-avg_prob(:,1)
 if strcmp(engine,"storm") == 1
     Perr = Perr(:,1);
 end
+sum(Perr)

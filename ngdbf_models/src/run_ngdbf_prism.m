@@ -25,7 +25,6 @@ function p_out = run_ngdbf_prism(adj_mat,code_rate,SNR,theta,w,tag,explicit_mode
     file_out = fopen("output_prism.txt","w"); % Open output file
     [check_size,sym_size] = size(adj_mat); %Number of variable and check nodes
     error_total = 2^sym_size; % Number of possible errors
-    sigma = sqrt(1/code_rate)*10^(-SNR/20);
     p_out = zeros(2^sym_size,2^sym_size); % initialize results 
     % Generate sample values 
     [valid_samples,error_samples,valid_idx,error_idx] = generate_samples(sym_size,sigma);
@@ -51,7 +50,7 @@ function p_out = run_ngdbf_prism(adj_mat,code_rate,SNR,theta,w,tag,explicit_mode
          
         % Calculate Energies and transition matrix
         E = calculate_energies(adj_mat,y,w,sym_size,check_size);
-        [p,status] = calculate_probabilities(E,theta,sigma,sym_size);
+        [p,status] = calculate_transition_probabilities(E,theta,sigma,sym_size);
         if status == -1
             return
         end

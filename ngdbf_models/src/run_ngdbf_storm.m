@@ -1,5 +1,5 @@
 % Driver for NGDBF Prism Models
-function p_out = run_ngdbf_storm(adj_mat,code_rate,SNR,theta,w,tag,explicit_model,finish_condition)
+function p_out = run_ngdbf_storm(adj_mat,sigma,theta,w,tag,explicit_model,finish_condition)
     %fid_test = fopen("idx_debug.txt","w");
     script_begin = time();
     % if isOctave()
@@ -29,7 +29,7 @@ function p_out = run_ngdbf_storm(adj_mat,code_rate,SNR,theta,w,tag,explicit_mode
     file_out = fopen("output_storm.txt","w"); % Open output file
     [check_size,sym_size] = size(adj_mat); %Number of variable and check nodes
     error_total = 2^sym_size; % Number of possible errors
-    sigma = sqrt(1/code_rate)*10^(-SNR/20);
+    
     p_out = zeros(2^sym_size,2^sym_size); % initialize results 
 
     time_sample_begin = time();
@@ -65,7 +65,7 @@ function p_out = run_ngdbf_storm(adj_mat,code_rate,SNR,theta,w,tag,explicit_mode
 
         % Calculate Probabilities
         % p_begin = time();
-        [p,status] = calculate_probabilities(E,theta,sigma,sym_size);
+        [p,status] = calculate_transition_probabilities(E,theta,sigma,sym_size);
         if status == -1
             return
         end
