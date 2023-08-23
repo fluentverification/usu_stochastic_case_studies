@@ -65,7 +65,6 @@ end
 
 # Run simulations and take average
 sigma = sqrt(1/code_rate)*10^(-SNR/20); # Std. dev. 
-[~,sym_size] = size(adj_mat);
 prob_sum = zeros(2^bit_length,2^bit_length);
 for idx = 1:runs
     if strcmp(engine,'prism') == 1
@@ -83,9 +82,9 @@ avg_prob(:,1)
 Perr = 1-avg_prob(:,1)
 
 # Calculate probability algorithm starts in given state
-sample_bits = zeros(2^sym_size,1);
-for idx = 1:2^sym_size
-    sample_bits(idx) = sum(bitget(idx-1,sym_size:-1:1));
+sample_bits = zeros(2^bit_length,1);
+for idx = 1:2^bit_length
+    sample_bits(idx) = sum(bitget(idx-1,bit_length:-1:1));
 end
 p_init_err = normcdf(0,1,sigma).^sample_bits;
 p_init_valid = (1-normcdf(0,1,sigma)).^(3-sample_bits);
